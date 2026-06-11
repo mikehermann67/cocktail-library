@@ -1,108 +1,195 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#1A1A2E"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>🍸 Cocktail Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-.app{font-family:var(--font-sans);max-width:420px;margin:0 auto}
-.topbar{background:#1A1A2E;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0}
-.topbar-title{color:#D4AF37;font-size:16px;font-weight:500}
-.topbar-count{color:#D4AF37;opacity:0.7;font-size:13px}
-.toolbar{padding:10px 12px 6px;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);position:sticky;top:0;z-index:20}
-.search-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.search-row input{flex:1;font-size:14px;padding:7px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:#fff;color:#111}
-.add-btn{flex-shrink:0;background:#1A1A2E;color:#D4AF37;border:none;border-radius:var(--border-radius-md);padding:7px 12px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px}
-.filter-row{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
-.filter-row::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;padding:4px 10px;border-radius:999px;font-size:12px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer}
-.chip.active{background:#1A1A2E;color:#D4AF37;border-color:#1A1A2E}
-.count-bar{padding:6px 12px 2px;font-size:12px;color:var(--color-text-tertiary)}
-.list{padding:8px 12px 2rem;display:flex;flex-direction:column;gap:8px}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
-.card-head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;cursor:pointer}
-.card-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.card-sub{font-size:12px;color:var(--color-text-secondary);margin-top:1px}
-.card-right{display:flex;align-items:center;gap:6px}
-.badge{font-size:11px;padding:3px 8px;border-radius:999px;background:#1A1A2E;color:#D4AF37;white-space:nowrap}
-.chevron{font-size:15px;color:var(--color-text-tertiary);transition:transform 0.18s}
-.chevron.open{transform:rotate(180deg)}
-.card-body{display:none;border-top:0.5px solid var(--color-border-tertiary);padding:12px 13px}
+:root {
+  --navy:#1A1A2E; --gold:#D4AF37; --gold-light:#F0D060;
+  --cream:#FFFDF7; --ink:#111; --muted:#777;
+  --border:#E8E5DD; --surface:#fff; --surface2:#F6F4EF;
+  --red:#C0392B; --red-bg:#FFF0F0; --green:#27ae60;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+
+/* HEADER */
+.header{background:var(--navy);padding:16px 16px 14px;position:sticky;top:0;z-index:30;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.header-title{font-family:'DM Serif Display',serif;color:var(--gold);font-size:22px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.count-badge{background:rgba(212,175,55,.15);color:var(--gold);border:1px solid rgba(212,175,55,.3);border-radius:999px;font-size:11px;font-weight:600;padding:3px 9px;white-space:nowrap}
+.add-btn{background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:6px 13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.search-wrap{position:relative}
+.search-wrap input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;font-family:inherit;font-size:14px;padding:9px 12px 9px 36px;outline:none;transition:border-color .15s,background .15s}
+.search-wrap input::placeholder{color:rgba(255,255,255,.4)}
+.search-wrap input:focus{background:rgba(255,255,255,.12);border-color:rgba(212,175,55,.5)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:15px;pointer-events:none}
+
+/* TABS */
+.tabs{background:var(--navy);display:flex;border-top:1px solid rgba(255,255,255,.08);padding:0 16px}
+.tab{flex:1;padding:10px 0 11px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .15s;user-select:none;font-family:inherit;background:none;border-top:none;border-left:none;border-right:none}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* FILTER BAR */
+.filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:5px 13px;border-radius:999px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all .15s;user-select:none}
+.chip.active{background:var(--navy);color:var(--gold);border-color:var(--navy)}
+.chip-div{flex-shrink:0;align-self:center;width:1px;height:18px;background:var(--border);margin:0 2px}
+
+/* STATUS */
+.status-bar{padding:8px 14px 4px;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.sheet-ok{color:var(--green)} .sheet-err{color:var(--red)} .sheet-load{color:var(--muted)}
+.export-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap}
+
+/* CARDS */
+.list{padding:8px 12px 5rem;display:flex;flex-direction:column;gap:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.card.is-fav{border-color:#f0c040;box-shadow:0 1px 6px rgba(212,175,55,.2)}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;cursor:pointer}
+.card-name{font-family:'DM Serif Display',serif;font-size:15px;color:var(--ink)}
+.card-sub{font-size:11px;color:var(--muted);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.card-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.fav-star{font-size:17px;line-height:1;cursor:pointer;padding:2px 4px;border-radius:6px;transition:transform .15s;user-select:none;flex-shrink:0}
+.fav-star:active{transform:scale(1.3)}
+.badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--navy);color:var(--gold);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.badge.local{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.chev{color:#ccc;font-size:18px;line-height:1;transition:transform .2s;display:inline-block}
+.chev.open{transform:rotate(180deg)}
+.card-body{display:none;border-top:1px solid var(--border);background:var(--surface2);padding:14px}
 .card-body.open{display:block}
-.sec-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--color-text-tertiary);margin-bottom:3px}
-.sec-val{font-size:13px;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px}
-.ing-list{display:flex;flex-direction:column;gap:1px;margin-bottom:10px}
-.ing-item{font-size:13px;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+.sl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:4px}
+.sv{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:12px}
+.ing-list{margin-bottom:12px}
+.ing-item{font-size:13px;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:7px}
 .ing-item:last-child{border-bottom:none}
-.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.instr-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px 11px;font-size:13px;color:var(--color-text-primary);line-height:1.6;margin-bottom:10px}
-.action-row{display:flex;gap:8px}
-.btn-edit{flex:1;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
-.btn-delete{background:#fff0f0;color:#c0392b;border:0.5px solid #f5c6c6;border-radius:var(--border-radius-md);padding:7px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px}
-.no-results{text-align:center;padding:3rem 1rem;color:var(--color-text-secondary);font-size:14px}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;align-items:flex-end;justify-content:center}
-.modal-bg.open{display:flex}
-.modal{background:#ffffff;color:#111;border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;padding:20px 16px 32px}
-.modal-title{font-size:16px;font-weight:600;color:#111;margin-bottom:16px}
-.field-label{font-size:12px;color:#555;margin-bottom:4px;margin-top:12px;font-weight:500}
-.field-label:first-of-type{margin-top:0}
-.modal input,.modal select,.modal textarea{width:100%;font-size:15px;padding:9px 11px;border-radius:8px;border:1.5px solid #ccc;background:#fff;color:#111;font-family:inherit;outline:none;-webkit-appearance:none}
-.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:#1A1A2E;box-shadow:0 0 0 2px rgba(26,26,46,0.1)}
-.modal textarea{resize:vertical;min-height:80px;line-height:1.5}
-.ing-editor{display:flex;flex-direction:column;gap:6px;margin-top:4px}
-.ing-row{display:flex;gap:6px;align-items:center}
+.ing-item::before{content:"·";color:var(--gold);font-size:16px;line-height:1;flex-shrink:0}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.instr-box{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:8px;padding:10px 12px;font-size:13px;color:#333;line-height:1.65;margin-bottom:12px}
+.card-actions{display:flex;gap:8px}
+.btn-edit{flex:1;background:#f0f0f0;color:#222;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.btn-del{background:var(--red-bg);color:var(--red);border:1px solid #f5c6c6;border-radius:8px;padding:8px 13px;font-size:13px;cursor:pointer}
+
+/* EMPTY STATES */
+.no-results{text-align:center;padding:4rem 1rem;color:var(--muted);font-size:14px}
+.empty-favs{text-align:center;padding:4rem 1.5rem}
+.empty-favs .ef-icon{font-size:44px;margin-bottom:12px}
+.empty-favs .ef-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:8px;color:var(--ink)}
+.empty-favs .ef-body{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* SPINNER */
+.spinner{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--muted);gap:10px;font-size:14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin-icon{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;color:#111;border-radius:18px 18px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:22px 18px 36px;-webkit-overflow-scrolling:touch}
+.modal-title{font-family:'DM Serif Display',serif;font-size:20px;color:#111;margin-bottom:18px}
+.flabel{font-size:12px;font-weight:600;color:#555;margin-top:14px;margin-bottom:5px;display:block}
+.flabel:first-of-type{margin-top:0}
+.modal input[type=text],.modal select,.modal textarea{display:block;width:100%;font-size:15px;padding:10px 12px;border-radius:9px;border:1.5px solid #ccc;background:#fff;color:#111;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--navy)}
+.modal textarea{resize:vertical;min-height:85px;line-height:1.55}
+.modal select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.mhr{height:1px;background:#eee;margin:16px 0}
+.ing-editor{display:flex;flex-direction:column;gap:7px;margin-bottom:6px}
+.ing-row{display:flex;gap:7px;align-items:center}
 .ing-row input{flex:1}
-.rm-btn{flex-shrink:0;background:#fff0f0;color:#c0392b;border:1.5px solid #f5c6c6;border-radius:8px;padding:8px 10px;font-size:14px;cursor:pointer;line-height:1;display:flex;align-items:center}
-.add-ing-btn{background:#f5f5f5;color:#333;border:1.5px solid #ddd;border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer;margin-top:4px;text-align:left;width:100%;display:flex;align-items:center;gap:6px}
-.divider{height:1px;background:#eee;margin:14px 0}
-.modal-actions{display:flex;gap:8px;margin-top:20px}
-.btn-save{flex:1;background:#1A1A2E;color:#D4AF37;border:none;border-radius:8px;padding:12px;font-size:15px;font-weight:600;cursor:pointer}
-.btn-cancel{background:#f0f0f0;color:#444;border:1.5px solid #ccc;border-radius:8px;padding:12px 16px;font-size:15px;cursor:pointer}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#D4AF37;padding:9px 20px;border-radius:999px;font-size:13px;z-index:200;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap}
+.rm-ing{background:var(--red-bg);color:var(--red);border:1.5px solid #f5c6c6;border-radius:8px;padding:9px 11px;font-size:16px;cursor:pointer;line-height:1;flex-shrink:0}
+.add-ing{width:100%;background:#f5f5f5;color:#333;border:1.5px solid #ddd;border-radius:9px;padding:9px 12px;font-size:14px;cursor:pointer;text-align:left;font-family:inherit}
+.modal-btns{display:flex;gap:10px;margin-top:22px}
+.btn-save{flex:1;background:var(--navy);color:var(--gold);border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-cancel{background:#f0f0f0;color:#444;border:1.5px solid #ddd;border-radius:10px;padding:13px 18px;font-size:15px;cursor:pointer;font-family:inherit}
+
+/* SETUP NOTE */
+.setup-note{margin:10px 12px 0;background:var(--navy);border-radius:12px;padding:14px 16px;color:var(--gold);font-size:13px;line-height:1.6;display:none}
+.setup-note.visible{display:block}
+.setup-note strong{color:var(--gold-light);display:block;margin-bottom:4px;font-size:14px}
+.setup-note code{display:block;background:rgba(255,255,255,.08);border-radius:6px;padding:8px 10px;font-size:11px;margin:8px 0;word-break:break-all;color:#fff;font-family:monospace}
+.dismiss-btn{margin-top:10px;background:transparent;border:1px solid rgba(212,175,55,.4);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--navy);color:var(--gold);padding:10px 20px;border-radius:999px;font-size:13px;font-weight:500;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{opacity:1}
 </style>
+</head>
+<body>
 
-<div class="app">
-  <div class="topbar">
-    <span class="topbar-title">🍸 Cocktail Library</span>
-    <span class="topbar-count" id="topbar-count"></span>
-  </div>
-  <div class="toolbar">
-    <div class="search-row">
-      <i class="ti ti-search" style="font-size:16px;color:var(--color-text-tertiary)"></i>
-      <input type="text" id="search" placeholder="Search cocktails or ingredients…" oninput="render()" autocomplete="off"/>
-      <button class="add-btn" onclick="openModal(null)"><i class="ti ti-plus"></i> Add</button>
+<div class="header">
+  <div class="header-top">
+    <span class="header-title">🍸 Cocktail Library</span>
+    <div class="header-actions">
+      <span class="count-badge" id="count-badge">— drinks</span>
+      <button class="add-btn" onclick="openModal(null)">+ Add</button>
     </div>
-    <div class="filter-row" id="filters"></div>
   </div>
-  <div class="count-bar" id="count-bar"></div>
-  <div class="list" id="list"></div>
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="search" placeholder="Search cocktails or ingredients…" autocomplete="off" oninput="render()"/>
+  </div>
 </div>
 
-<div class="modal-bg" id="modal-bg">
-  <div class="modal" id="modal-inner">
-    <div class="modal-title" id="modal-title">Add cocktail</div>
-    <div class="field-label">Name *</div>
-    <input type="text" id="f-name" placeholder="e.g. Dark & Stormy" autocomplete="off"/>
-    <div class="field-label">Base spirit</div>
-    <input type="text" id="f-spirit" placeholder="e.g. Rum" autocomplete="off"/>
-    <div class="field-label">Method</div>
-    <select id="f-method">
-      <option>Shake</option><option>Stir</option><option>Build</option><option>Muddle</option><option>Blend</option><option>Other</option>
-    </select>
-    <div class="divider"></div>
-    <div class="field-label">Glassware</div>
-    <input type="text" id="f-glass" placeholder="e.g. Highball" autocomplete="off"/>
-    <div class="field-label">Garnish</div>
-    <input type="text" id="f-garnish" placeholder="e.g. Lime wedge" autocomplete="off"/>
-    <div class="field-label">Ice</div>
-    <input type="text" id="f-ice" placeholder="e.g. Cubes" autocomplete="off"/>
-    <div class="divider"></div>
-    <div class="field-label">Ingredients *</div>
-    <div class="ing-editor" id="ing-editor"></div>
-    <button class="add-ing-btn" onclick="addIngRow('')"><i class="ti ti-plus"></i> Add ingredient</button>
-    <div class="divider"></div>
-    <div class="field-label">Instructions</div>
-    <textarea id="f-instructions" placeholder="Step-by-step instructions…"></textarea>
-    <div class="modal-actions">
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" id="tab-all" onclick="setTab('all')">All Cocktails</button>
+  <button class="tab" id="tab-favs" onclick="setTab('favs')">⭐ Favorites <span id="fav-count"></span></button>
+</div>
+
+<div class="filter-bar" id="filter-bar"></div>
+
+<div class="status-bar">
+  <span id="result-count"></span>
+  <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
+</div>
+
+<div class="setup-note" id="setup-note">
+  <strong>📋 Connect your Google Sheet</strong>
+  Open this HTML file in a text editor and replace <code>const SHEET_URL = "";</code> with your published Google Sheet CSV link (File → Share → Publish to web → CSV format).
+  <br/>Until then the built-in library loads automatically. Cocktails you add or favorite are saved in your browser.
+  <button class="dismiss-btn" onclick="document.getElementById('setup-note').classList.remove('visible')">Got it</button>
+</div>
+
+<div id="list-wrap">
+  <div class="spinner" id="spinner"><div class="spin-icon"></div> Loading…</div>
+  <div class="list" id="list" style="display:none"></div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-title" id="mtitle">Add cocktail</div>
+    <span class="flabel">Name *</span>
+    <input type="text" id="fn" placeholder="e.g. Dark & Stormy" autocomplete="off"/>
+    <span class="flabel">Base spirit</span>
+    <input type="text" id="fs" placeholder="e.g. Rum" autocomplete="off"/>
+    <span class="flabel">Method</span>
+    <select id="fm"><option>Shake</option><option>Stir</option><option>Build</option><option>Muddle</option><option>Blend</option><option>Other</option></select>
+    <div class="mhr"></div>
+    <span class="flabel">Glassware</span>
+    <input type="text" id="fg" placeholder="e.g. Highball" autocomplete="off"/>
+    <span class="flabel">Garnish</span>
+    <input type="text" id="fga" placeholder="e.g. Lime wedge" autocomplete="off"/>
+    <span class="flabel">Ice</span>
+    <input type="text" id="fi" placeholder="e.g. Cubes" autocomplete="off"/>
+    <div class="mhr"></div>
+    <span class="flabel">Ingredients</span>
+    <div class="ing-editor" id="ings"></div>
+    <button class="add-ing" onclick="addIng('')">+ Add ingredient</button>
+    <div class="mhr"></div>
+    <span class="flabel">Instructions</span>
+    <textarea id="fx" placeholder="Step-by-step instructions…"></textarea>
+    <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="save-btn" onclick="saveModal()">Save cocktail</button>
+      <button class="btn-save" onclick="doSave()">Save cocktail</button>
     </div>
   </div>
 </div>
@@ -110,291 +197,374 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const STORAGE_KEY = "cocktails-v1";
+// ═══════════════════════════════════════════════════════════════
+//  CONFIGURATION — paste your published Google Sheet CSV URL here
+// ═══════════════════════════════════════════════════════════════
+const SHEET_URL = "";
+// ═══════════════════════════════════════════════════════════════
 
-const DEFAULT = [
-  {id:"1",name:"Amaretto Sour",spirit:"Amaretto",method:"Shake",glass:"Rocks glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:["1.5 oz Disaronno Amaretto","0.75 oz Evan Williams Black Bourbon","1 oz lemon juice","1 bar spoon simple syrup","1 egg white"],instructions:"Dry-shake (no ice) 15 sec. Add ice, shake until chilled. Strain over fresh ice."},
-  {id:"2",name:"Americano",spirit:"Campari",method:"Build",glass:"Highball",garnish:"Orange twist",ice:"Cubes",ingredients:["1.5 oz Martini & Rossi Rosso Vermouth","1.5 oz Campari","Fever-Tree Club Soda"],instructions:"Fill highball with ice, add Campari and vermouth, top with soda, stir gently."},
-  {id:"3",name:"Aperol Spritz",spirit:"Aperol",method:"Build",glass:"Wine glass",garnish:"Orange slice",ice:"Cubes",ingredients:["2 oz Aperol","3 oz Mionetto Prosecco","1 oz Fever-Tree Club Soda"],instructions:"Build in ice-filled wine glass with Aperol first. Top with soda."},
-  {id:"4",name:"Army & Navy",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Orange twist",ice:"Up",ingredients:["2 oz Gray Whale Gin","1 oz lemon juice","0.75 oz orgeat","1 dash Angostura Bitters"],instructions:"Shake all ingredients with ice until chilled. Strain into chilled coupe."},
-  {id:"5",name:"Aviation",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:["2 oz Roku Gin","0.75 oz lemon juice","0.5 oz Luxardo Maraschino","0.25 oz Giffard Creme De Violette"],instructions:"Shake with ice until chilled. Strain into glass."},
-  {id:"6",name:"Bee's Knees",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:["2 oz Botanist Gin","0.75 oz Monin Honey Syrup","0.75 oz lemon juice"],instructions:"Shake with ice until chilled. Strain into chilled glass."},
-  {id:"7",name:"Blood & Sand",spirit:"Scotch",method:"Shake",glass:"Coupe / Martini",garnish:"Orange twist",ice:"Up",ingredients:["0.75 oz Dewar's White Label Scotch","0.75 oz Martini & Rossi Rosso Vermouth","0.75 oz Cherry Herring","0.75 oz orange juice"],instructions:"Shake all with ice until chilled. Strain into chilled glass."},
-  {id:"8",name:"Bloody Mary",spirit:"Vodka",method:"Shake",glass:"Pint glass",garnish:"3 olives, lime wedge, celery",ice:"Cubes",ingredients:["2 oz Wheatley Vodka","4 oz tomato juice","2 barspoons horseradish","2 dashes Tobasco","2 dashes Worcestershire","1 pinch black pepper","1 pinch smoked paprika","1 pinch celery salt","Lemon & lime wedge"],instructions:"Salt-rim glass. Shake all ingredients gently. Strain into prepared glass."},
-  {id:"9",name:"Bramble",spirit:"Gin",method:"Shake",glass:"Rocks glass",garnish:"Lemon half wheel, blackberry",ice:"Crushed",ingredients:["2 oz Hendrick's Gin","1 oz lemon juice","0.5 oz Giffard Blackberry Liqueur","0.25 oz simple syrup"],instructions:"Shake gin, lemon and simple syrup. Fine-strain over crushed ice. Float blackberry liqueur on top."},
-  {id:"10",name:"Caipirinha",spirit:"Cachaça",method:"Muddle",glass:"Double rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:["2 oz Cachaça","2 barspoons sugar","1 whole lime"],instructions:"Muddle lime wedges and sugar in glass. Fill with ice, add cachaça, stir briefly."},
-  {id:"11",name:"Clover Club",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"3 raspberries",ice:"Up",ingredients:["2 oz Bombay Sapphire Gin","0.5 oz lemon juice","0.5 oz Re'al Raspberry Syrup","1 egg white"],instructions:"Shake all vigorously until chilled. Strain into chilled coupe."},
-  {id:"12",name:"Corpse Reviver No.2",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:["0.75 oz Bombay Sapphire Gin","0.75 oz Lillet Blanc","0.75 oz Cointreau","0.75 oz lemon juice","Kubler Absinthe (rinse)"],instructions:"Rinse coupe with absinthe. Shake remaining ingredients with ice. Strain into prepared glass."},
-  {id:"13",name:"Cosmopolitan",spirit:"Vodka",method:"Shake",glass:"Coupe / Martini",garnish:"Lime wheel",ice:"Up",ingredients:["1.5 oz Grey Goose Vodka","0.75 oz Cointreau","0.75 oz cranberry juice","0.25 oz lime juice"],instructions:"Shake all with ice until chilled. Strain into chilled glass."},
-  {id:"14",name:"Daiquiri",spirit:"Rum",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lime wheel",ice:"Up",ingredients:["2 oz Planteray 3 Stars White Rum","0.75 oz simple syrup","0.75 oz lime juice"],instructions:"Shake with ice until chilled. Double strain into chilled glass."},
-  {id:"15",name:"Dirty Martini",spirit:"Gin / Vodka",method:"Shake",glass:"Martini / Nick & Nora",garnish:"3 Filthy olives",ice:"Up",ingredients:["2.5 oz Bombay Dry Gin or Ketel One Vodka","0.5 oz Martini & Rossi Dry Vermouth","0.5 oz Filthy Olive Brine"],instructions:"Shake with ice 15–20 sec. Double strain into chilled glass."},
-  {id:"16",name:"Dry Martini",spirit:"Gin / Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:["2.5 oz Bombay Dry Gin or Ketel One Vodka","0.5 oz Martini & Rossi Dry Vermouth"],instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
-  {id:"17",name:"El Diablo",spirit:"Tequila",method:"Shake",glass:"Highball",garnish:"Lime wedge",ice:"Cubes",ingredients:["1.5 oz Patron Reposado Tequila","0.5 oz Creme de Cassis","0.5 oz lime juice","3 oz Fever-Tree Ginger Beer"],instructions:"Shake tequila, cassis and lime with ice. Double strain into highball over ice. Top with ginger beer."},
-  {id:"18",name:"Espresso Martini",spirit:"Vodka",method:"Shake",glass:"Coupe",garnish:"3 espresso beans",ice:"Up",ingredients:["1.5 oz Ketel One Vodka","1 oz Mr. Black Coffee Liqueur","1 oz Fever Tree Espresso Mixer","0.25 oz simple syrup","1 bar spoon Fee Foam"],instructions:"Shake all with ice until chilled. Strain into coupe."},
-  {id:"19",name:"French 75",spirit:"Gin",method:"Shake",glass:"Champagne flute",garnish:"Lemon twist",ice:"Up",ingredients:["1.5 oz Gray Whale Gin","0.75 oz simple syrup","0.75 oz lemon juice","2 oz Mionetto Prosecco"],instructions:"Shake gin, lemon and simple syrup. Strain into flute. Top with prosecco."},
-  {id:"20",name:"Gibson",spirit:"Gin / Vodka",method:"Stir",glass:"Martini glass",garnish:"3 cocktail onions",ice:"Up",ingredients:["2.5 oz Roku Gin or Chopin Vodka","0.5 oz Martini & Rossi Dry Vermouth"],instructions:"Stir with ice until chilled. Strain into chilled martini glass."},
-  {id:"21",name:"Gimlet",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Lime wheel",ice:"Up",ingredients:["2 oz Hendrick's Gin","0.75 oz lime juice","0.75 oz simple syrup"],instructions:"Shake with ice until chilled. Strain into chilled coupe."},
-  {id:"22",name:"Irish Coffee",spirit:"Whiskey",method:"Build",glass:"Handled mug",garnish:"Whipped cream",ice:"Hot",ingredients:["1.5 oz Jameson Irish Whiskey","2 barspoons sugar","4 oz coffee"],instructions:"Pre-heat mug. Add whiskey and sugar, fill with coffee, stir, top with whipped cream."},
-  {id:"23",name:"Jungle Bird",spirit:"Rum",method:"Shake",glass:"Rocks glass",garnish:"Pineapple wedge, cherry",ice:"Cubes",ingredients:["1.5 oz Meyer's Dark Rum","0.75 oz Campari","1.5 oz pineapple juice","0.5 oz lime juice","0.5 oz simple syrup"],instructions:"Shake all with ice until chilled. Strain into rocks glass over fresh ice."},
-  {id:"24",name:"Last Word",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:["0.75 oz Bombay Sapphire Gin","0.75 oz Fontbonne Herbal Liqueur","0.75 oz Luxardo Maraschino","0.75 oz lime juice"],instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
-  {id:"25",name:"Lemon Drop",spirit:"Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim",ice:"Up",ingredients:["1.5 oz Tito's Vodka","0.5 oz Cointreau","0.75 oz simple syrup","0.75 oz lemon juice"],instructions:"Sugar-rim glass. Shake all with ice. Strain into prepared glass."},
-  {id:"26",name:"Mai Tai",spirit:"Rum",method:"Shake",glass:"Double old fashioned",garnish:"Mint sprig, lime shell",ice:"Pebble / cubes",ingredients:["2 oz Appleton Estate Aged Rum","0.5 oz Cointreau","0.75 oz lime juice","0.75 oz orgeat","0.25 oz simple syrup"],instructions:"Shake with crushed ice until frosty. Pour unstrained into glass."},
-  {id:"27",name:"Manhattan",spirit:"Rye Whiskey",method:"Stir",glass:"Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:["2 oz High West Double Rye Whiskey","1 oz Martini & Rossi Rosso Vermouth","1 dash Angostura Bitters"],instructions:"Stir whiskey, vermouth and bitters with ice until chilled. Strain into chilled glass."},
-  {id:"28",name:"Margarita",spirit:"Tequila",method:"Shake",glass:"Rocks glass",garnish:"Salt rim (opt.), lime wheel",ice:"Cubes",ingredients:["2 oz Don Julio Reposado","1 oz Cointreau","0.75 oz lime juice"],instructions:"Optional salt rim. Shake all with ice until chilled. Strain over fresh ice."},
-  {id:"29",name:"Mint Julep",spirit:"Bourbon",method:"Muddle",glass:"Julep cup / rocks",garnish:"Mint sprig, bitters",ice:"Crushed",ingredients:["2 oz Woodford Reserve Bourbon","0.25 oz simple syrup","8 fresh mint leaves"],instructions:"Lightly muddle mint in simple syrup. Add bourbon, pack with crushed ice, stir until frosted."},
-  {id:"30",name:"Mojito",spirit:"Rum",method:"Muddle",glass:"Highball",garnish:"Mint sprig, lime wheel",ice:"Cubes",ingredients:["2 oz Bacardi Superior White Rum","0.75 oz lime juice","0.75 oz simple syrup","10 mint leaves","2 oz Fever-Tree Club Soda"],instructions:"Lightly muddle mint. Add rum, lime, ice. Short shake. Strain over fresh ice. Top with soda."},
-  {id:"31",name:"Moscow Mule",spirit:"Vodka",method:"Build",glass:"Mule mug / rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:["2 oz Wheatley Vodka","0.5 oz lime juice","3 oz Fever-Tree Ginger Beer"],instructions:"Fill mug with ice, add vodka and lime, top with ginger beer."},
-  {id:"32",name:"Naked and Famous",spirit:"Mezcal",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:["1 oz Ilegal Mezcal","1 oz Aperol","1 oz Fontnonne Herbal Liqueur","1 oz lime juice"],instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
-  {id:"33",name:"Negroni",spirit:"Gin",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:["1 oz Bombay Dry Gin","1 oz Campari","1 oz Martini & Rossi Rosso Vermouth"],instructions:"Stir all with ice until chilled. Strain into glass over ice."},
-  {id:"34",name:"Negroni Sbagliato",spirit:"Campari",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:["1 oz Campari","1 oz Martini & Rossi Rosso Vermouth","1 oz Mionetto Prosecco"],instructions:"Stir Campari and vermouth with ice. Strain over fresh ice. Top with prosecco."},
-  {id:"35",name:"New York Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"Red wine float",ice:"Cubes",ingredients:["2 oz High West Rye or Maker's Mark Bourbon","1 oz lemon juice","0.75 oz simple syrup","1 egg white","0.5 oz red wine (float)"],instructions:"Shake whiskey, syrup, lemon and egg white. Strain over ice. Float red wine on top."},
-  {id:"36",name:"Old Cuban",spirit:"Rum",method:"Muddle",glass:"Coupe",garnish:"Mint sprig",ice:"Up",ingredients:["1.5 oz Appleton Estate Aged Rum","1 oz simple syrup","0.75 oz lime juice","6 fresh mint leaves","2 dashes Angostura Bitters","2 oz Mionetto Prosecco"],instructions:"Muddle mint with syrup and lime. Add rum, bitters, ice. Shake. Double strain into coupe. Top with prosecco."},
-  {id:"37",name:"Old Fashioned",spirit:"Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Large cube",ingredients:["2 oz WhistlePig Rye or Buffalo Trace Bourbon","1 barspoon sugar","1 dash Angostura Bitters","1 dash Orange Bitters","0.25 oz water"],instructions:"Stir sugar, bitters and water until dissolved. Add whiskey and ice, stir until chilled. Strain over large cube."},
-  {id:"38",name:"Paloma",spirit:"Tequila",method:"Build",glass:"Highball",garnish:"Lime wheel",ice:"Cubes",ingredients:["2 oz Jose Cuervo Blanco","0.5 oz lime juice","1 pinch salt","4 oz Fever-Tree Grapefruit Soda"],instructions:"Add tequila, lime and salt, fill with ice, top with grapefruit soda, stir gently."},
-  {id:"39",name:"Paper Plane",spirit:"Bourbon",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"None",ice:"Up",ingredients:["0.75 oz Maker's Mark Bourbon","0.75 oz Aperol","0.75 oz Amaro Nonino","0.75 oz lemon juice"],instructions:"Shake all with ice until chilled. Strain into coupe."},
-  {id:"40",name:"Penicillin",spirit:"Scotch",method:"Shake",glass:"Rocks glass",garnish:"Candied ginger",ice:"Cubes",ingredients:["1.75 oz Johnnie Walker Black Label","0.75 oz lemon juice","0.5 oz Monin Honey Syrup","0.25 oz Monin Ginger Syrup","0.25 oz Laphroaig 10yr (float)"],instructions:"Shake blended scotch, lemon and syrups. Double strain over fresh ice. Float Laphroaig on top."},
-  {id:"41",name:"Piña Colada",spirit:"Rum",method:"Shake",glass:"Hurricane / highball",garnish:"Pineapple wedge, orange wheel",ice:"Pebble / cubes",ingredients:["2 oz Planteray 3 Star White Rum","1.5 oz Re'al Cream of Coconut","1.5 oz pineapple juice","0.5 oz lime juice"],instructions:"Shake vigorously 20–30 sec. Strain over pebble ice."},
-  {id:"42",name:"Ramos Gin Fizz",spirit:"Gin",method:"Shake",glass:"Collins / highball",garnish:"None",ice:"Up",ingredients:["2 oz Bombay Sapphire Gin","0.75 oz simple syrup","0.5 oz heavy cream","0.5 oz lemon juice","0.5 oz lime juice","3 dashes orange flower water","1 egg white","Fever-Tree Club Soda (top)"],instructions:"Dry-shake all (no ice) 10 sec. Add ice, shake 15 sec. Strain into collins glass. Top with soda."},
-  {id:"43",name:"Sazerac",spirit:"Rye Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Lemon peel",ice:"Up",ingredients:["2.5 oz Sazerac Rye Whiskey","4 dashes Peychaud's Bitters","0.25 oz cold water","1 tsp sugar","Kubler Absinthe (rinse)"],instructions:"Rinse glass with absinthe. Muddle sugar, water and bitters. Add rye and ice, stir 20 sec. Strain into prepared glass."},
-  {id:"44",name:"Sidecar",spirit:"Cognac",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim, orange twist",ice:"Up",ingredients:["1.5 oz Remy Martin VSOP Cognac","0.75 oz Cointreau","0.75 oz lemon juice"],instructions:"Sugar-rim glass. Shake cognac, Cointreau and lemon with ice. Strain into prepared glass."},
-  {id:"45",name:"Singapore Sling",spirit:"Gin",method:"Shake",glass:"Highball",garnish:"Orange wheel, cherry",ice:"Cubes",ingredients:["0.75 oz Botanist Gin","0.25 oz Benedictine","0.25 oz Grand Marnier","0.25 oz Cherry Herring","1 oz pineapple juice","0.5 oz lime juice","1 dash Angostura Bitters","Fever-Tree Club Soda (top)"],instructions:"Shake all except soda with ice. Strain into highball over ice. Top with club soda."},
-  {id:"46",name:"Standard Martini",spirit:"Gin",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:["2 oz Bombay Dry Gin","1 oz Martini & Rossi Dry Vermouth"],instructions:"Stir gin and vermouth with ice 30–45 sec. Strain into chilled glass."},
-  {id:"47",name:"Tom Collins",spirit:"Gin",method:"Build",glass:"Collins glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:["2 oz Gray Whale Gin","0.75 oz simple syrup","0.75 oz lemon juice","Fever-Tree Club Soda (top)"],instructions:"Add gin, syrup and lemon. Fill with ice, top with club soda, stir."},
-  {id:"48",name:"Vesper",spirit:"Gin / Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:["3 oz Hendrick's Gin","1 oz Grey Goose Vodka","0.5 oz Lillet Blanc"],instructions:"Shake vigorously 20–30 sec. Strain into chilled glass. Express lemon twist over drink."},
-  {id:"49",name:"Vieux Carré",spirit:"Rye / Cognac",method:"Stir",glass:"Rocks glass",garnish:"Lemon twist",ice:"Cubes",ingredients:["0.75 oz Sazerac Rye Whiskey","0.75 oz Remy Martin VSOP Cognac","0.75 oz Martini & Rossi Rosso Vermouth","2 barspoons Benedictine","2 dashes Angostura Bitters","2 dashes Peychaud's Bitters"],instructions:"Stir all with ice until chilled. Strain into rocks glass over fresh ice."},
-  {id:"50",name:"Vodka Martini",spirit:"Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:["2.5 oz Ketel One Vodka","0.5 oz Martini & Rossi Dry Vermouth"],instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
-  {id:"51",name:"Whiskey Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"3–4 dashes Angostura Bitters",ice:"Cubes",ingredients:["2 oz Jack Daniel's Tennessee Whiskey","0.75 oz simple syrup","0.75 oz lemon juice","1 egg white"],instructions:"Dry-shake all 30 sec. Add ice, shake 15–20 sec. Strain over fresh ice."}
+const LOCAL_KEY  = "cocktail-local-v1";
+const FAVS_KEY   = "cocktail-favs-v1";
+
+const FALLBACK = [
+  {name:"Amaretto Sour",spirit:"Amaretto",method:"Shake",glass:"Rocks glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:"1.5 oz Disaronno Amaretto | 0.75 oz Evan Williams Bourbon | 1 oz lemon juice | 1 barspoon simple syrup | 1 egg white",instructions:"Dry-shake 15 sec. Add ice, shake until chilled. Strain over fresh ice."},
+  {name:"Americano",spirit:"Campari",method:"Build",glass:"Highball",garnish:"Orange twist",ice:"Cubes",ingredients:"1.5 oz Martini & Rossi Rosso Vermouth | 1.5 oz Campari | Fever-Tree Club Soda",instructions:"Fill highball with ice, add Campari and vermouth, top with soda, stir gently."},
+  {name:"Aperol Spritz",spirit:"Aperol",method:"Build",glass:"Wine glass",garnish:"Orange slice",ice:"Cubes",ingredients:"2 oz Aperol | 3 oz Mionetto Prosecco | 1 oz Fever-Tree Club Soda",instructions:"Build in ice-filled wine glass. Top with soda."},
+  {name:"Army & Navy",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Orange twist",ice:"Up",ingredients:"2 oz Gray Whale Gin | 1 oz lemon juice | 0.75 oz orgeat | 1 dash Angostura Bitters",instructions:"Shake with ice until chilled. Strain into chilled coupe."},
+  {name:"Aviation",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"2 oz Roku Gin | 0.75 oz lemon juice | 0.5 oz Luxardo Maraschino | 0.25 oz Giffard Creme De Violette",instructions:"Shake with ice until chilled. Strain into glass."},
+  {name:"Bee's Knees",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:"2 oz Botanist Gin | 0.75 oz Monin Honey Syrup | 0.75 oz lemon juice",instructions:"Shake with ice until chilled. Strain into chilled glass."},
+  {name:"Blood & Sand",spirit:"Scotch",method:"Shake",glass:"Coupe / Martini",garnish:"Orange twist",ice:"Up",ingredients:"0.75 oz Dewar's White Label Scotch | 0.75 oz Martini & Rossi Rosso Vermouth | 0.75 oz Cherry Herring | 0.75 oz orange juice",instructions:"Shake all with ice until chilled. Strain into chilled glass."},
+  {name:"Bloody Mary",spirit:"Vodka",method:"Shake",glass:"Pint glass",garnish:"3 olives, lime wedge, celery",ice:"Cubes",ingredients:"2 oz Wheatley Vodka | 4 oz tomato juice | 2 barspoons horseradish | 2 dashes Tabasco | 2 dashes Worcestershire | 1 pinch black pepper | 1 pinch smoked paprika | 1 pinch celery salt | Lemon & lime wedge",instructions:"Salt-rim glass. Shake all gently. Strain into prepared glass."},
+  {name:"Bramble",spirit:"Gin",method:"Shake",glass:"Rocks glass",garnish:"Lemon half wheel, blackberry",ice:"Crushed",ingredients:"2 oz Hendrick's Gin | 1 oz lemon juice | 0.5 oz Giffard Blackberry Liqueur | 0.25 oz simple syrup",instructions:"Shake gin, lemon and simple syrup. Fine-strain over crushed ice. Float blackberry liqueur on top."},
+  {name:"Caipirinha",spirit:"Cachaça",method:"Muddle",glass:"Double rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Cachaça | 2 barspoons sugar | 1 whole lime",instructions:"Muddle lime and sugar in glass. Fill with ice, add cachaça, stir."},
+  {name:"Clover Club",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"3 raspberries",ice:"Up",ingredients:"2 oz Bombay Sapphire Gin | 0.5 oz lemon juice | 0.5 oz Re'al Raspberry Syrup | 1 egg white",instructions:"Shake all vigorously until chilled. Strain into chilled coupe."},
+  {name:"Corpse Reviver No.2",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:"0.75 oz Bombay Sapphire Gin | 0.75 oz Lillet Blanc | 0.75 oz Cointreau | 0.75 oz lemon juice | Kubler Absinthe (rinse)",instructions:"Rinse coupe with absinthe. Shake remaining with ice. Strain into prepared glass."},
+  {name:"Cosmopolitan",spirit:"Vodka",method:"Shake",glass:"Coupe / Martini",garnish:"Lime wheel",ice:"Up",ingredients:"1.5 oz Grey Goose Vodka | 0.75 oz Cointreau | 0.75 oz cranberry juice | 0.25 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled glass."},
+  {name:"Daiquiri",spirit:"Rum",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lime wheel",ice:"Up",ingredients:"2 oz Planteray 3 Stars White Rum | 0.75 oz simple syrup | 0.75 oz lime juice",instructions:"Shake with ice until chilled. Double strain into chilled glass."},
+  {name:"Dirty Martini",spirit:"Gin / Vodka",method:"Shake",glass:"Martini / Nick & Nora",garnish:"3 Filthy olives",ice:"Up",ingredients:"2.5 oz Bombay Dry Gin or Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth | 0.5 oz Filthy Olive Brine",instructions:"Shake with ice 15–20 sec. Double strain into chilled glass."},
+  {name:"Dry Martini",spirit:"Gin / Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2.5 oz Bombay Dry Gin or Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
+  {name:"El Diablo",spirit:"Tequila",method:"Shake",glass:"Highball",garnish:"Lime wedge",ice:"Cubes",ingredients:"1.5 oz Patron Reposado | 0.5 oz Creme de Cassis | 0.5 oz lime juice | 3 oz Fever-Tree Ginger Beer",instructions:"Shake tequila, cassis and lime. Double strain over ice. Top with ginger beer."},
+  {name:"Espresso Martini",spirit:"Vodka",method:"Shake",glass:"Coupe",garnish:"3 espresso beans",ice:"Up",ingredients:"1.5 oz Ketel One Vodka | 1 oz Mr. Black Coffee Liqueur | 1 oz Fever Tree Espresso Mixer | 0.25 oz simple syrup | 1 barspoon Fee Foam",instructions:"Shake all with ice until chilled. Strain into coupe."},
+  {name:"French 75",spirit:"Gin",method:"Shake",glass:"Champagne flute",garnish:"Lemon twist",ice:"Up",ingredients:"1.5 oz Gray Whale Gin | 0.75 oz simple syrup | 0.75 oz lemon juice | 2 oz Mionetto Prosecco",instructions:"Shake gin, lemon and syrup. Strain into flute. Top with prosecco."},
+  {name:"Gibson",spirit:"Gin / Vodka",method:"Stir",glass:"Martini glass",garnish:"3 cocktail onions",ice:"Up",ingredients:"2.5 oz Roku Gin or Chopin Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice until chilled. Strain into chilled martini glass."},
+  {name:"Gimlet",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Lime wheel",ice:"Up",ingredients:"2 oz Hendrick's Gin | 0.75 oz lime juice | 0.75 oz simple syrup",instructions:"Shake with ice until chilled. Strain into chilled coupe."},
+  {name:"Irish Coffee",spirit:"Whiskey",method:"Build",glass:"Handled mug",garnish:"Whipped cream",ice:"Hot",ingredients:"1.5 oz Jameson Irish Whiskey | 2 barspoons sugar | 4 oz coffee",instructions:"Pre-heat mug. Add whiskey and sugar, fill with coffee, stir, top with whipped cream."},
+  {name:"Jungle Bird",spirit:"Rum",method:"Shake",glass:"Rocks glass",garnish:"Pineapple wedge, cherry",ice:"Cubes",ingredients:"1.5 oz Meyer's Dark Rum | 0.75 oz Campari | 1.5 oz pineapple juice | 0.5 oz lime juice | 0.5 oz simple syrup",instructions:"Shake all with ice. Strain into rocks glass over fresh ice."},
+  {name:"Last Word",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"0.75 oz Bombay Sapphire Gin | 0.75 oz Fontbonne Herbal Liqueur | 0.75 oz Luxardo Maraschino | 0.75 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
+  {name:"Lemon Drop",spirit:"Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim",ice:"Up",ingredients:"1.5 oz Tito's Vodka | 0.5 oz Cointreau | 0.75 oz simple syrup | 0.75 oz lemon juice",instructions:"Sugar-rim glass. Shake all with ice. Strain into prepared glass."},
+  {name:"Mai Tai",spirit:"Rum",method:"Shake",glass:"Double old fashioned",garnish:"Mint sprig, lime shell",ice:"Pebble / cubes",ingredients:"2 oz Appleton Estate Aged Rum | 0.5 oz Cointreau | 0.75 oz lime juice | 0.75 oz orgeat | 0.25 oz simple syrup",instructions:"Shake with crushed ice until frosty. Pour unstrained into glass."},
+  {name:"Manhattan",spirit:"Rye Whiskey",method:"Stir",glass:"Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"2 oz High West Double Rye | 1 oz Martini & Rossi Rosso Vermouth | 1 dash Angostura Bitters",instructions:"Stir whiskey, vermouth and bitters with ice. Strain into chilled glass."},
+  {name:"Margarita",spirit:"Tequila",method:"Shake",glass:"Rocks glass",garnish:"Salt rim (opt.), lime wheel",ice:"Cubes",ingredients:"2 oz Don Julio Reposado | 1 oz Cointreau | 0.75 oz lime juice",instructions:"Optional salt rim. Shake with ice. Strain over fresh ice."},
+  {name:"Mint Julep",spirit:"Bourbon",method:"Muddle",glass:"Julep cup / rocks",garnish:"Mint sprig",ice:"Crushed",ingredients:"2 oz Woodford Reserve Bourbon | 0.25 oz simple syrup | 8 fresh mint leaves",instructions:"Lightly muddle mint in simple syrup. Add bourbon, pack with crushed ice, stir until frosted."},
+  {name:"Mojito",spirit:"Rum",method:"Muddle",glass:"Highball",garnish:"Mint sprig, lime wheel",ice:"Cubes",ingredients:"2 oz Bacardi Superior White Rum | 0.75 oz lime juice | 0.75 oz simple syrup | 10 mint leaves | 2 oz Fever-Tree Club Soda",instructions:"Muddle mint. Add rum, lime, ice. Short shake. Strain over fresh ice. Top with soda."},
+  {name:"Moscow Mule",spirit:"Vodka",method:"Build",glass:"Mule mug / rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Wheatley Vodka | 0.5 oz lime juice | 3 oz Fever-Tree Ginger Beer",instructions:"Fill mug with ice, add vodka and lime, top with ginger beer."},
+  {name:"Naked and Famous",spirit:"Mezcal",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:"1 oz Ilegal Mezcal | 1 oz Aperol | 1 oz Fontnonne Herbal Liqueur | 1 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
+  {name:"Negroni",spirit:"Gin",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:"1 oz Bombay Dry Gin | 1 oz Campari | 1 oz Martini & Rossi Rosso Vermouth",instructions:"Stir all with ice until chilled. Strain into glass over ice."},
+  {name:"Negroni Sbagliato",spirit:"Campari",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:"1 oz Campari | 1 oz Martini & Rossi Rosso Vermouth | 1 oz Mionetto Prosecco",instructions:"Stir Campari and vermouth. Strain over fresh ice. Top with prosecco."},
+  {name:"New York Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"Red wine float",ice:"Cubes",ingredients:"2 oz High West Rye or Maker's Mark Bourbon | 1 oz lemon juice | 0.75 oz simple syrup | 1 egg white | 0.5 oz red wine (float)",instructions:"Shake whiskey, syrup, lemon and egg white. Strain over ice. Float red wine on top."},
+  {name:"Old Cuban",spirit:"Rum",method:"Muddle",glass:"Coupe",garnish:"Mint sprig",ice:"Up",ingredients:"1.5 oz Appleton Estate Aged Rum | 1 oz simple syrup | 0.75 oz lime juice | 6 mint leaves | 2 dashes Angostura Bitters | 2 oz Mionetto Prosecco",instructions:"Muddle mint. Add rum, bitters, ice. Shake. Double strain into coupe. Top with prosecco."},
+  {name:"Old Fashioned",spirit:"Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Large cube",ingredients:"2 oz WhistlePig Rye or Buffalo Trace Bourbon | 1 barspoon sugar | 1 dash Angostura Bitters | 1 dash Orange Bitters | 0.25 oz water",instructions:"Stir sugar, bitters and water. Add whiskey and ice, stir until chilled. Strain over large cube."},
+  {name:"Paloma",spirit:"Tequila",method:"Build",glass:"Highball",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Jose Cuervo Blanco | 0.5 oz lime juice | 1 pinch salt | 4 oz Fever-Tree Grapefruit Soda",instructions:"Add tequila, lime and salt, fill with ice, top with grapefruit soda."},
+  {name:"Paper Plane",spirit:"Bourbon",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"None",ice:"Up",ingredients:"0.75 oz Maker's Mark Bourbon | 0.75 oz Aperol | 0.75 oz Amaro Nonino | 0.75 oz lemon juice",instructions:"Shake all with ice until chilled. Strain into coupe."},
+  {name:"Penicillin",spirit:"Scotch",method:"Shake",glass:"Rocks glass",garnish:"Candied ginger",ice:"Cubes",ingredients:"1.75 oz Johnnie Walker Black Label | 0.75 oz lemon juice | 0.5 oz Monin Honey Syrup | 0.25 oz Monin Ginger Syrup | 0.25 oz Laphroaig 10yr (float)",instructions:"Shake blended scotch, lemon and syrups. Double strain over fresh ice. Float Laphroaig on top."},
+  {name:"Piña Colada",spirit:"Rum",method:"Shake",glass:"Hurricane / highball",garnish:"Pineapple wedge, orange wheel",ice:"Pebble / cubes",ingredients:"2 oz Planteray 3 Star White Rum | 1.5 oz Re'al Cream of Coconut | 1.5 oz pineapple juice | 0.5 oz lime juice",instructions:"Shake vigorously 20–30 sec. Strain over pebble ice."},
+  {name:"Ramos Gin Fizz",spirit:"Gin",method:"Shake",glass:"Collins / highball",garnish:"None",ice:"Up",ingredients:"2 oz Bombay Sapphire Gin | 0.75 oz simple syrup | 0.5 oz heavy cream | 0.5 oz lemon juice | 0.5 oz lime juice | 3 dashes orange flower water | 1 egg white | Fever-Tree Club Soda (top)",instructions:"Dry-shake all 10 sec. Add ice, shake 15 sec. Strain. Top with soda."},
+  {name:"Sazerac",spirit:"Rye Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Lemon peel",ice:"Up",ingredients:"2.5 oz Sazerac Rye Whiskey | 4 dashes Peychaud's Bitters | 0.25 oz cold water | 1 tsp sugar | Kubler Absinthe (rinse)",instructions:"Rinse glass with absinthe. Muddle sugar, water and bitters. Add rye and ice, stir 20 sec. Strain."},
+  {name:"Sidecar",spirit:"Cognac",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim, orange twist",ice:"Up",ingredients:"1.5 oz Remy Martin VSOP Cognac | 0.75 oz Cointreau | 0.75 oz lemon juice",instructions:"Sugar-rim glass. Shake cognac, Cointreau and lemon with ice. Strain into prepared glass."},
+  {name:"Singapore Sling",spirit:"Gin",method:"Shake",glass:"Highball",garnish:"Orange wheel, cherry",ice:"Cubes",ingredients:"0.75 oz Botanist Gin | 0.25 oz Benedictine | 0.25 oz Grand Marnier | 0.25 oz Cherry Herring | 1 oz pineapple juice | 0.5 oz lime juice | 1 dash Angostura Bitters | Fever-Tree Club Soda (top)",instructions:"Shake all except soda. Strain into highball over ice. Top with club soda."},
+  {name:"Standard Martini",spirit:"Gin",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2 oz Bombay Dry Gin | 1 oz Martini & Rossi Dry Vermouth",instructions:"Stir gin and vermouth with ice 30–45 sec. Strain into chilled glass."},
+  {name:"Tom Collins",spirit:"Gin",method:"Build",glass:"Collins glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:"2 oz Gray Whale Gin | 0.75 oz simple syrup | 0.75 oz lemon juice | Fever-Tree Club Soda (top)",instructions:"Add gin, syrup and lemon. Fill with ice, top with club soda, stir."},
+  {name:"Vesper",spirit:"Gin / Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:"3 oz Hendrick's Gin | 1 oz Grey Goose Vodka | 0.5 oz Lillet Blanc",instructions:"Shake vigorously 20–30 sec. Strain into chilled glass. Express lemon twist."},
+  {name:"Vieux Carré",spirit:"Rye / Cognac",method:"Stir",glass:"Rocks glass",garnish:"Lemon twist",ice:"Cubes",ingredients:"0.75 oz Sazerac Rye Whiskey | 0.75 oz Remy Martin VSOP Cognac | 0.75 oz Martini & Rossi Rosso Vermouth | 2 barspoons Benedictine | 2 dashes Angostura Bitters | 2 dashes Peychaud's Bitters",instructions:"Stir all with ice until chilled. Strain into rocks glass over fresh ice."},
+  {name:"Vodka Martini",spirit:"Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2.5 oz Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
+  {name:"Whiskey Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"3–4 dashes Angostura Bitters",ice:"Cubes",ingredients:"2 oz Jack Daniel's Tennessee Whiskey | 0.75 oz simple syrup | 0.75 oz lemon juice | 1 egg white",instructions:"Dry-shake all 30 sec. Add ice, shake 15–20 sec. Strain over fresh ice."}
 ];
 
-let cocktails = [];
+const METHODS = ["All","Shake","Stir","Build","Muddle","Blend","Other"];
+const SPIRITS = ["All","Gin","Vodka","Rum","Whiskey","Bourbon","Rye Whiskey","Tequila","Scotch","Mezcal","Cognac","Aperol","Campari","Cachaça"];
+
+let sheetDB = [];
+let localDB = [];
+let favs = new Set();  // Set of lowercase names
 let openId = null;
-let editingId = null;
-let activeMethod = "All";
-let activeSpirit = "All";
+let editId = null;
+let am = "All", as_ = "All";
+let activeTab = "all";  // "all" | "favs"
 
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
+function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function toast(msg, ms){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),ms||2200);
 }
 
-function showToast(msg, duration) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), duration || 2200);
-}
+// ── STORAGE ──
+function loadLocal(){ try{ const r=localStorage.getItem(LOCAL_KEY); return r?JSON.parse(r):[]; } catch(e){ return []; } }
+function saveLocal(){ try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(localDB)); } catch(e){} }
+function loadFavs(){ try{ const r=localStorage.getItem(FAVS_KEY); return r?new Set(JSON.parse(r)):new Set(); } catch(e){ return new Set(); } }
+function saveFavs(){ try{ localStorage.setItem(FAVS_KEY,JSON.stringify([...favs])); } catch(e){} }
 
-async function persistSave() {
-  const json = JSON.stringify(cocktails);
-  let ok = false;
-  try {
-    const result = await window.storage.set(STORAGE_KEY, json);
-    ok = !!result;
-  } catch(e) {
-    ok = false;
+// ── FAVORITES ──
+function toggleFav(name, e){
+  if(e){ e.stopPropagation(); }
+  const key = name.toLowerCase();
+  if(favs.has(key)){
+    favs.delete(key);
+    toast("Removed from favorites");
+  } else {
+    favs.add(key);
+    toast("⭐ Added to favorites");
   }
-  return ok;
-}
-
-async function load() {
-  let loaded = false;
-  try {
-    const r = await window.storage.get(STORAGE_KEY);
-    if (r && r.value) {
-      const parsed = JSON.parse(r.value);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        cocktails = parsed;
-        loaded = true;
-      }
-    }
-  } catch(e) {}
-
-  if (!loaded) {
-    cocktails = DEFAULT.map(c => ({...c}));
-    // seed storage on first load
-    try { await window.storage.set(STORAGE_KEY, JSON.stringify(cocktails)); } catch(e) {}
-  }
+  saveFavs();
+  updateFavCount();
   render();
 }
 
-function getFiltered() {
-  const q = (document.getElementById("search") || {value:""}).value.toLowerCase().trim();
-  return cocktails.filter(c => {
-    const mOk = activeMethod === "All" || c.method === activeMethod;
-    const sOk = activeSpirit === "All" || (c.spirit || "").includes(activeSpirit);
-    const qOk = !q || c.name.toLowerCase().includes(q)
-      || (c.spirit || "").toLowerCase().includes(q)
-      || (c.ingredients || []).some(i => i.toLowerCase().includes(q));
-    return mOk && sOk && qOk;
+function isFav(name){ return favs.has(name.toLowerCase()); }
+
+function updateFavCount(){
+  const el = document.getElementById("fav-count");
+  if(el) el.textContent = favs.size > 0 ? "("+favs.size+")" : "";
+}
+
+// ── TABS ──
+function setTab(t){
+  activeTab = t;
+  openId = null;
+  document.getElementById("tab-all").classList.toggle("active", t==="all");
+  document.getElementById("tab-favs").classList.toggle("active", t==="favs");
+  render();
+}
+
+// ── MERGED VIEW ──
+function getMerged(){
+  const localMap = {};
+  localDB.forEach(c => { localMap[c.name.toLowerCase()] = c; });
+  const result = sheetDB.map(c => localMap[c.name.toLowerCase()] || c);
+  const sheetNames = new Set(sheetDB.map(c=>c.name.toLowerCase()));
+  localDB.forEach(c => { if(!sheetNames.has(c.name.toLowerCase())) result.push(c); });
+  result.sort((a,b)=>a.name.localeCompare(b.name));
+  return result;
+}
+
+// ── EXPORT ──
+function exportCSV(){
+  const all = getMerged();
+  const hdr = ["Name","Spirit","Method","Glass","Garnish","Ice","Ingredients","Instructions"];
+  const rows = all.map(c=>[c.name,c.spirit,c.method,c.glass,c.garnish,c.ice,c.ingredients,c.instructions]
+    .map(v=>'"'+(v||"").replace(/"/g,'""')+'"').join(","));
+  const csv=[hdr.join(","),...rows].join("\n");
+  const a=document.createElement("a");
+  a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);
+  a.download="cocktails.csv"; a.click();
+  toast("✓ CSV downloaded");
+}
+
+// ── SHEET LOADING ──
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/);
+  if(lines.length<2) return [];
+  const headers=lines[0].split(",").map(h=>h.replace(/^"|"$/g,"").trim().toLowerCase());
+  return lines.slice(1).map(line=>{
+    const fields=[]; let cur="",inQ=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"'){inQ=!inQ;}
+      else if(ch===','&&!inQ){fields.push(cur);cur="";}
+      else{cur+=ch;}
+    }
+    fields.push(cur);
+    const obj={};
+    headers.forEach((h,i)=>{obj[h]=(fields[i]||"").trim();});
+    return obj;
+  }).filter(r=>r.name);
+}
+
+async function loadSheet(){
+  localDB = loadLocal();
+  favs = loadFavs();
+  updateFavCount();
+
+  if(!SHEET_URL){
+    sheetDB = FALLBACK;
+    document.getElementById("setup-note").classList.add("visible");
+    setStatus("Using built-in library","sheet-load");
+    showList(); return;
+  }
+  try{
+    setStatus("Syncing…","sheet-load");
+    const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(SHEET_URL);
+    const resp=await fetch(proxy,{cache:"no-cache"});
+    if(!resp.ok) throw new Error("HTTP "+resp.status);
+    const text=await resp.text();
+    const parsed=parseCSV(text);
+    if(!parsed.length) throw new Error("Empty");
+    sheetDB=parsed;
+    setStatus("✓ Synced from Google Sheet","sheet-ok");
+  } catch(e){
+    sheetDB=FALLBACK;
+    setStatus("⚠ Sheet unavailable — using built-in library","sheet-err");
+  }
+  showList();
+}
+
+function setStatus(msg,cls){
+  const el=document.getElementById("sheet-status"); if(!el)return;
+  el.textContent=msg; el.className=cls;
+}
+
+function showList(){
+  document.getElementById("spinner").style.display="none";
+  document.getElementById("list").style.display="flex";
+  render();
+}
+
+// ── FILTERS & RENDER ──
+function getFiltered(){
+  const q=(document.getElementById("search")||{value:""}).value.toLowerCase().trim();
+  let pool = getMerged();
+  if(activeTab === "favs") pool = pool.filter(c => isFav(c.name));
+  return pool.filter(c=>{
+    if(am!=="All"&&c.method!==am) return false;
+    if(as_!=="All"&&!(c.spirit||"").includes(as_)) return false;
+    if(q){
+      const hay=(c.name+" "+(c.spirit||"")+" "+(c.ingredients||"")).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
   });
 }
 
-function buildFilters() {
-  const ms = ["All","Shake","Stir","Build","Muddle","Blend","Other"];
-  const ss = ["All","Gin","Vodka","Rum","Whiskey","Bourbon","Rye Whiskey","Tequila","Scotch","Mezcal","Cognac","Aperol","Campari","Cachaça"];
-  const el = document.getElementById("filters");
-  if (!el) return;
-  let h = ms.map(m => `<span class="chip${activeMethod===m?" active":""}" onclick="setF('method','${m}')">${m}</span>`).join("");
-  h += `<span style="color:var(--color-border-secondary);align-self:center;flex-shrink:0;padding:0 2px">|</span>`;
-  h += ss.map(s => `<span class="chip${activeSpirit===s?" active":""}" onclick="setF('spirit','${s}')">${s==="All"?"All spirits":s}</span>`).join("");
-  el.innerHTML = h;
+function buildFilters(){
+  const el=document.getElementById("filter-bar"); if(!el) return;
+  let h=METHODS.map(m=>`<span class="chip${am===m?" active":""}" onclick="setF('m','${m}')">${m}</span>`).join("");
+  h+=`<div class="chip-div"></div>`;
+  h+=SPIRITS.map(s=>`<span class="chip${as_===s?" active":""}" onclick="setF('s','${esc(s)}')">${s==="All"?"All spirits":esc(s)}</span>`).join("");
+  el.innerHTML=h;
 }
 
-function setF(g, v) {
-  if (g === "method") activeMethod = v;
-  else activeSpirit = v;
-  openId = null;
-  render();
-}
+function setF(g,v){ if(g==="m") am=v; else as_=v; openId=null; render(); }
+function tog(id){ openId=openId===id?null:id; render(); }
+function isLocal(name){ return localDB.some(c=>c.name.toLowerCase()===name.toLowerCase()); }
 
-function toggle(id) {
-  openId = openId === id ? null : id;
-  render();
-}
-
-function render() {
+function render(){
   buildFilters();
-  const filtered = getFiltered();
-  const cb = document.getElementById("count-bar");
-  const te = document.getElementById("topbar-count");
-  if (cb) cb.textContent = filtered.length + " cocktail" + (filtered.length !== 1 ? "s" : "");
-  if (te) te.textContent = cocktails.length + " total";
-  const list = document.getElementById("list");
-  if (!list) return;
-  if (!filtered.length) { list.innerHTML = `<div class="no-results">No cocktails found</div>`; return; }
-  list.innerHTML = filtered.map(c => {
-    const open = openId === c.id;
-    return `<div class="card">
-      <div class="card-head" onclick="toggle('${c.id}')">
+  const f=getFiltered();
+  const merged=getMerged();
+  document.getElementById("count-badge").textContent=merged.length+" drinks";
+  document.getElementById("result-count").textContent=
+    activeTab==="favs"
+      ? f.length+" favorite"+(f.length!==1?"s":"")
+      : f.length+" cocktail"+(f.length!==1?"s":"");
+
+  const list=document.getElementById("list"); if(!list) return;
+
+  // Empty favorites state
+  if(activeTab==="favs" && favs.size===0){
+    list.innerHTML=`<div class="empty-favs">
+      <div class="ef-icon">⭐</div>
+      <div class="ef-title">No favorites yet</div>
+      <div class="ef-body">Tap the ☆ star on any cocktail card to save it here for quick access during service.</div>
+    </div>`;
+    return;
+  }
+
+  if(!f.length){
+    list.innerHTML='<div class="no-results">No cocktails match your search.</div>';
+    return;
+  }
+
+  list.innerHTML=f.map(c=>{
+    const open=openId===c.name;
+    const fav=isFav(c.name);
+    const local=isLocal(c.name);
+    const ings=(c.ingredients||"").split("|").map(s=>s.trim()).filter(Boolean);
+    const safeName=esc(c.name.replace(/'/g,"&#39;"));
+    return `<div class="card${fav?" is-fav":""}">
+      <div class="card-head" onclick="tog('${safeName}')">
         <div>
-          <div class="card-name">${c.name}</div>
-          <div class="card-sub">${c.glass || ""}${c.spirit ? " · " + c.spirit : ""}</div>
+          <div class="card-name">${esc(c.name)}</div>
+          <div class="card-sub">${esc(c.glass||"")}${c.spirit?" · "+esc(c.spirit):""}</div>
         </div>
         <div class="card-right">
-          <span class="badge">${c.method || ""}</span>
-          <i class="ti ti-chevron-down chevron${open ? " open" : ""}"></i>
+          <span class="fav-star" onclick="toggleFav('${safeName}',event)" title="${fav?"Remove from favorites":"Add to favorites"}">${fav?"⭐":"☆"}</span>
+          <span class="badge${local?" local":""}">${local?"★ Local":esc(c.method||"")}</span>
+          <span class="chev${open?" open":""}">⌄</span>
         </div>
       </div>
-      ${open ? `<div class="card-body open">
-        <div class="sec-label">Ingredients</div>
-        <div class="ing-list">${(c.ingredients||[]).map(i=>`<div class="ing-item">${i}</div>`).join("")}</div>
+      ${open?`<div class="card-body open">
+        <div class="sl">Ingredients</div>
+        <div class="ing-list">${ings.map(i=>`<div class="ing-item">${esc(i)}</div>`).join("")}</div>
         <div class="meta-grid">
-          <div><div class="sec-label">Glass</div><div class="sec-val">${c.glass||"—"}</div></div>
-          <div><div class="sec-label">Garnish</div><div class="sec-val">${c.garnish||"—"}</div></div>
-          <div><div class="sec-label">Ice</div><div class="sec-val">${c.ice||"—"}</div></div>
-          <div><div class="sec-label">Spirit</div><div class="sec-val">${c.spirit||"—"}</div></div>
+          <div><div class="sl">Method</div><div class="sv">${esc(c.method||"—")}</div></div>
+          <div><div class="sl">Glass</div><div class="sv">${esc(c.glass||"—")}</div></div>
+          <div><div class="sl">Garnish</div><div class="sv">${esc(c.garnish||"—")}</div></div>
+          <div><div class="sl">Ice</div><div class="sv">${esc(c.ice||"—")}</div></div>
         </div>
-        ${c.instructions ? `<div class="sec-label">Instructions</div><div class="instr-box">${c.instructions}</div>` : ""}
-        <div class="action-row">
-          <button class="btn-edit" onclick="event.stopPropagation();openModal('${c.id}')"><i class="ti ti-edit"></i> Edit</button>
-          <button class="btn-delete" onclick="event.stopPropagation();deleteCocktail('${c.id}')"><i class="ti ti-trash"></i></button>
+        ${c.instructions?`<div class="sl">Instructions</div><div class="instr-box">${esc(c.instructions)}</div>`:""}
+        <div class="card-actions">
+          <button class="btn-edit" onclick="event.stopPropagation();openModal('${safeName}')">✏️ Edit</button>
+          ${local?`<button class="btn-del" onclick="event.stopPropagation();delLocal('${safeName}')">🗑</button>`:""}
         </div>
-      </div>` : ""}
+      </div>`:""}
     </div>`;
   }).join("");
 }
 
-function addIngRow(val) {
-  const ed = document.getElementById("ing-editor");
-  if (!ed) return;
-  const row = document.createElement("div");
-  row.className = "ing-row";
-  const inp = document.createElement("input");
-  inp.type = "text";
-  inp.value = val;
-  inp.placeholder = "e.g. 2 oz Hendrick's Gin";
-  inp.autocomplete = "off";
-  const btn = document.createElement("button");
-  btn.className = "rm-btn";
-  btn.type = "button";
-  btn.innerHTML = '<i class="ti ti-x"></i>';
-  btn.onclick = () => row.remove();
-  row.appendChild(inp);
-  row.appendChild(btn);
-  ed.appendChild(row);
+// ── MODAL ──
+function addIng(val){
+  const ed=document.getElementById("ings"); if(!ed) return;
+  const row=document.createElement("div"); row.className="ing-row";
+  const inp=document.createElement("input"); inp.type="text"; inp.value=val;
+  inp.placeholder="e.g. 2 oz Hendrick's Gin"; inp.autocomplete="off";
+  const btn=document.createElement("button"); btn.className="rm-ing"; btn.type="button";
+  btn.textContent="×"; btn.onclick=()=>row.remove();
+  row.appendChild(inp); row.appendChild(btn); ed.appendChild(row);
 }
 
-function openModal(id) {
-  editingId = id || null;
-  const c = id ? cocktails.find(x => x.id === id) : null;
-  document.getElementById("modal-title").textContent = c ? "Edit cocktail" : "Add cocktail";
-  document.getElementById("f-name").value = c ? c.name : "";
-  document.getElementById("f-spirit").value = c ? (c.spirit || "") : "";
-  document.getElementById("f-method").value = c ? (c.method || "Shake") : "Shake";
-  document.getElementById("f-glass").value = c ? (c.glass || "") : "";
-  document.getElementById("f-garnish").value = c ? (c.garnish || "") : "";
-  document.getElementById("f-ice").value = c ? (c.ice || "") : "";
-  document.getElementById("f-instructions").value = c ? (c.instructions || "") : "";
-  const ed = document.getElementById("ing-editor");
-  ed.innerHTML = "";
-  const ings = c ? c.ingredients : ["", "", ""];
-  ings.forEach(i => addIngRow(i));
-  document.getElementById("modal-bg").classList.add("open");
+function openModal(nameOrNull){
+  const merged=getMerged();
+  const c=nameOrNull?merged.find(x=>x.name===nameOrNull):null;
+  editId=nameOrNull||null;
+  document.getElementById("mtitle").textContent=c?"Edit cocktail":"Add cocktail";
+  document.getElementById("fn").value=c?c.name:"";
+  document.getElementById("fs").value=c?(c.spirit||""):"";
+  document.getElementById("fm").value=c?(c.method||"Shake"):"Shake";
+  document.getElementById("fg").value=c?(c.glass||""):"";
+  document.getElementById("fga").value=c?(c.garnish||""):"";
+  document.getElementById("fi").value=c?(c.ice||""):"";
+  document.getElementById("fx").value=c?(c.instructions||""):"";
+  const ed=document.getElementById("ings"); ed.innerHTML="";
+  const ings=c?(c.ingredients||"").split("|").map(s=>s.trim()).filter(Boolean):["",""];
+  ings.forEach(v=>addIng(v));
+  document.getElementById("overlay").classList.add("open");
+  setTimeout(()=>document.getElementById("fn").focus(),100);
 }
 
-function closeModal() {
-  document.getElementById("modal-bg").classList.remove("open");
-  editingId = null;
+function closeModal(){
+  document.getElementById("overlay").classList.remove("open");
+  editId=null;
 }
 
-async function saveModal() {
-  const saveBtn = document.getElementById("save-btn");
-  const name = document.getElementById("f-name").value.trim();
-  if (!name) { showToast("⚠️ Name is required"); return; }
-
-  saveBtn.textContent = "Saving…";
-  saveBtn.disabled = true;
-
-  const ings = Array.from(document.querySelectorAll("#ing-editor .ing-row input"))
-    .map(i => i.value.trim()).filter(Boolean);
-
-  const data = {
-    id: editingId || uid(),
-    name,
-    spirit: document.getElementById("f-spirit").value.trim(),
-    method: document.getElementById("f-method").value,
-    glass: document.getElementById("f-glass").value.trim(),
-    garnish: document.getElementById("f-garnish").value.trim(),
-    ice: document.getElementById("f-ice").value.trim(),
-    ingredients: ings,
-    instructions: document.getElementById("f-instructions").value.trim()
+function doSave(){
+  const name=document.getElementById("fn").value.trim();
+  if(!name){toast("⚠️ Name is required");return;}
+  const ings=Array.from(document.querySelectorAll("#ings .ing-row input"))
+    .map(i=>i.value.trim()).filter(Boolean);
+  const data={
+    id:uid(), name,
+    spirit:document.getElementById("fs").value.trim(),
+    method:document.getElementById("fm").value,
+    glass:document.getElementById("fg").value.trim(),
+    garnish:document.getElementById("fga").value.trim(),
+    ice:document.getElementById("fi").value.trim(),
+    ingredients:ings.join(" | "),
+    instructions:document.getElementById("fx").value.trim()
   };
-
-  if (editingId) {
-    const idx = cocktails.findIndex(c => c.id === editingId);
-    if (idx > -1) cocktails[idx] = data;
-  } else {
-    cocktails.push(data);
-    cocktails.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  const saved = await persistSave();
-
-  saveBtn.textContent = "Save cocktail";
-  saveBtn.disabled = false;
-
+  localDB=localDB.filter(c=>
+    c.name.toLowerCase()!==name.toLowerCase()&&
+    (!editId||c.name.toLowerCase()!==editId.toLowerCase())
+  );
+  localDB.push(data);
+  saveLocal();
   closeModal();
-  openId = data.id;
+  openId=name;
   render();
-  showToast(saved
-    ? (editingId ? "✓ Cocktail updated" : "✓ Cocktail added & saved")
-    : "Added (storage unavailable — will reset on reload)"
-  , 3000);
+  toast(editId?"✓ Updated!":"✓ "+name+" added!",2500);
 }
 
-async function deleteCocktail(id) {
-  const c = cocktails.find(x => x.id === id);
-  if (!c) return;
-  if (!confirm(`Delete "${c.name}"?`)) return;
-  cocktails = cocktails.filter(x => x.id !== id);
-  await persistSave();
-  openId = null;
-  render();
-  showToast("Deleted");
+function delLocal(name){
+  if(!confirm('Remove local version of "'+name+'"?')) return;
+  localDB=localDB.filter(c=>c.name.toLowerCase()!==name.toLowerCase());
+  saveLocal(); openId=null; render(); toast("Removed local edit");
 }
 
-document.getElementById("modal-bg").addEventListener("click", e => {
-  if (e.target === e.currentTarget) closeModal();
-});
+document.getElementById("overlay").addEventListener("click",e=>{ if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
 
-load();
+loadSheet();
 </script>
+</body>
+</html>

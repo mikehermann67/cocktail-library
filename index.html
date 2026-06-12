@@ -10,16 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --navy:#1A1A2E; --gold:#D4AF37; --gold-light:#F0D060;
-  --cream:#FFFDF7; --ink:#111; --muted:#777;
-  --border:#E8E5DD; --surface:#fff; --surface2:#F6F4EF;
-  --red:#C0392B; --red-bg:#FFF0F0; --green:#27ae60;
-}
+:root{--navy:#1A1A2E;--gold:#D4AF37;--gold-light:#F0D060;--cream:#FFFDF7;--ink:#111;--muted:#777;--border:#E8E5DD;--surface:#fff;--surface2:#F6F4EF;--red:#C0392B;--red-bg:#FFF0F0;--green:#27ae60}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
-
-/* HEADER */
 .header{background:var(--navy);padding:16px 16px 14px;position:sticky;top:0;z-index:30;box-shadow:0 2px 12px rgba(0,0,0,.25)}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .header-title{font-family:'DM Serif Display',serif;color:var(--gold);font-size:22px}
@@ -31,25 +24,17 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 .search-wrap input::placeholder{color:rgba(255,255,255,.4)}
 .search-wrap input:focus{background:rgba(255,255,255,.12);border-color:rgba(212,175,55,.5)}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:15px;pointer-events:none}
-
-/* TABS */
 .tabs{background:var(--navy);display:flex;border-top:1px solid rgba(255,255,255,.08);padding:0 16px}
 .tab{flex:1;padding:10px 0 11px;font-size:13px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .15s;user-select:none;font-family:inherit;background:none;border-top:none;border-left:none;border-right:none}
 .tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-
-/* FILTER BAR */
 .filter-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 12px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 .filter-bar::-webkit-scrollbar{display:none}
 .chip{flex-shrink:0;padding:5px 13px;border-radius:999px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all .15s;user-select:none}
 .chip.active{background:var(--navy);color:var(--gold);border-color:var(--navy)}
 .chip-div{flex-shrink:0;align-self:center;width:1px;height:18px;background:var(--border);margin:0 2px}
-
-/* STATUS */
 .status-bar{padding:8px 14px 4px;font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
-.sheet-ok{color:var(--green)} .sheet-err{color:var(--red)} .sheet-load{color:var(--muted)}
+.sheet-ok{color:var(--green)}.sheet-err{color:var(--red)}.sheet-load{color:var(--muted)}
 .export-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap}
-
-/* CARDS */
 .list{padding:8px 12px 5rem;display:flex;flex-direction:column;gap:8px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .card.is-fav{border-color:#f0c040;box-shadow:0 1px 6px rgba(212,175,55,.2)}
@@ -76,20 +61,14 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 .card-actions{display:flex;gap:8px}
 .btn-edit{flex:1;background:#f0f0f0;color:#222;border:1px solid #ddd;border-radius:8px;padding:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
 .btn-del{background:var(--red-bg);color:var(--red);border:1px solid #f5c6c6;border-radius:8px;padding:8px 13px;font-size:13px;cursor:pointer}
-
-/* EMPTY STATES */
 .no-results{text-align:center;padding:4rem 1rem;color:var(--muted);font-size:14px}
 .empty-favs{text-align:center;padding:4rem 1.5rem}
 .empty-favs .ef-icon{font-size:44px;margin-bottom:12px}
 .empty-favs .ef-title{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:8px;color:var(--ink)}
 .empty-favs .ef-body{font-size:14px;color:var(--muted);line-height:1.6}
-
-/* SPINNER */
 .spinner{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--muted);gap:10px;font-size:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin-icon{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
-
-/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
 .modal{background:#fff;color:#111;border-radius:18px 18px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:22px 18px 36px;-webkit-overflow-scrolling:touch}
@@ -109,15 +88,11 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 .modal-btns{display:flex;gap:10px;margin-top:22px}
 .btn-save{flex:1;background:var(--navy);color:var(--gold);border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn-cancel{background:#f0f0f0;color:#444;border:1.5px solid #ddd;border-radius:10px;padding:13px 18px;font-size:15px;cursor:pointer;font-family:inherit}
-
-/* SETUP NOTE */
 .setup-note{margin:10px 12px 0;background:var(--navy);border-radius:12px;padding:14px 16px;color:var(--gold);font-size:13px;line-height:1.6;display:none}
 .setup-note.visible{display:block}
 .setup-note strong{color:var(--gold-light);display:block;margin-bottom:4px;font-size:14px}
 .setup-note code{display:block;background:rgba(255,255,255,.08);border-radius:6px;padding:8px 10px;font-size:11px;margin:8px 0;word-break:break-all;color:#fff;font-family:monospace}
 .dismiss-btn{margin-top:10px;background:transparent;border:1px solid rgba(212,175,55,.4);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit}
-
-/* TOAST */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--navy);color:var(--gold);padding:10px 20px;border-radius:999px;font-size:13px;font-weight:500;z-index:200;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{opacity:1}
 </style>
@@ -138,7 +113,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
   </div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
   <button class="tab active" id="tab-all" onclick="setTab('all')">All Cocktails</button>
   <button class="tab" id="tab-favs" onclick="setTab('favs')">⭐ Favorites <span id="fav-count"></span></button>
@@ -154,7 +128,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 <div class="setup-note" id="setup-note">
   <strong>📋 Connect your Google Sheet</strong>
   Open this HTML file in a text editor and replace <code>const SHEET_URL = "";</code> with your published Google Sheet CSV link (File → Share → Publish to web → CSV format).
-  <br/>Until then the built-in library loads automatically. Cocktails you add or favorite are saved in your browser.
+  <br/>Until then the built-in library loads automatically.
   <button class="dismiss-btn" onclick="document.getElementById('setup-note').classList.remove('visible')">Got it</button>
 </div>
 
@@ -163,7 +137,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
   <div class="list" id="list" style="display:none"></div>
 </div>
 
-<!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-title" id="mtitle">Add cocktail</div>
@@ -172,7 +145,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
     <span class="flabel">Base spirit</span>
     <input type="text" id="fs" placeholder="e.g. Rum" autocomplete="off"/>
     <span class="flabel">Method</span>
-    <select id="fm"><option>Shake</option><option>Stir</option><option>Build</option><option>Muddle</option><option>Blend</option><option>Other</option></select>
+    <select id="fm"><option>Shake</option><option>Stir</option><option>Build</option><option>Muddle</option><option>Blend</option><option>Batch</option><option>Other</option></select>
+    <span class="flabel">Menu</span>
+    <select id="fmenu"><option value="Classic">Classic</option><option value="Merricks">Merrick's Tavern</option><option value="Pomelo">Pomelo Rooftop</option></select>
     <div class="mhr"></div>
     <span class="flabel">Glassware</span>
     <input type="text" id="fg" placeholder="e.g. Highball" autocomplete="off"/>
@@ -200,175 +175,170 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 // ═══════════════════════════════════════════════════════════════
 //  CONFIGURATION — paste your published Google Sheet CSV URL here
 // ═══════════════════════════════════════════════════════════════
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTnYmfPg3SNwJdP01hcqh1DLvclZTbQf9p14y2S8oGF118S1Ah34K0ac-sXnFjBI4nXh-0swu9cvOvq/pub?output=csv";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?output=csv";
 // ═══════════════════════════════════════════════════════════════
 
-const LOCAL_KEY  = "cocktail-local-v1";
-const FAVS_KEY   = "cocktail-favs-v1";
+const LOCAL_KEY = "cocktail-local-v1";
+const FAVS_KEY  = "cocktail-favs-v1";
 
 const FALLBACK = [
-  {name:"Amaretto Sour",spirit:"Amaretto",method:"Shake",glass:"Rocks glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:"1.5 oz Disaronno Amaretto | 0.75 oz Evan Williams Bourbon | 1 oz lemon juice | 1 barspoon simple syrup | 1 egg white",instructions:"Dry-shake 15 sec. Add ice, shake until chilled. Strain over fresh ice."},
-  {name:"Americano",spirit:"Campari",method:"Build",glass:"Highball",garnish:"Orange twist",ice:"Cubes",ingredients:"1.5 oz Martini & Rossi Rosso Vermouth | 1.5 oz Campari | Fever-Tree Club Soda",instructions:"Fill highball with ice, add Campari and vermouth, top with soda, stir gently."},
-  {name:"Aperol Spritz",spirit:"Aperol",method:"Build",glass:"Wine glass",garnish:"Orange slice",ice:"Cubes",ingredients:"2 oz Aperol | 3 oz Mionetto Prosecco | 1 oz Fever-Tree Club Soda",instructions:"Build in ice-filled wine glass. Top with soda."},
-  {name:"Army & Navy",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Orange twist",ice:"Up",ingredients:"2 oz Gray Whale Gin | 1 oz lemon juice | 0.75 oz orgeat | 1 dash Angostura Bitters",instructions:"Shake with ice until chilled. Strain into chilled coupe."},
-  {name:"Aviation",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"2 oz Roku Gin | 0.75 oz lemon juice | 0.5 oz Luxardo Maraschino | 0.25 oz Giffard Creme De Violette",instructions:"Shake with ice until chilled. Strain into glass."},
-  {name:"Bee's Knees",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:"2 oz Botanist Gin | 0.75 oz Monin Honey Syrup | 0.75 oz lemon juice",instructions:"Shake with ice until chilled. Strain into chilled glass."},
-  {name:"Blood & Sand",spirit:"Scotch",method:"Shake",glass:"Coupe / Martini",garnish:"Orange twist",ice:"Up",ingredients:"0.75 oz Dewar's White Label Scotch | 0.75 oz Martini & Rossi Rosso Vermouth | 0.75 oz Cherry Herring | 0.75 oz orange juice",instructions:"Shake all with ice until chilled. Strain into chilled glass."},
-  {name:"Bloody Mary",spirit:"Vodka",method:"Shake",glass:"Pint glass",garnish:"3 olives, lime wedge, celery",ice:"Cubes",ingredients:"2 oz Wheatley Vodka | 4 oz tomato juice | 2 barspoons horseradish | 2 dashes Tabasco | 2 dashes Worcestershire | 1 pinch black pepper | 1 pinch smoked paprika | 1 pinch celery salt | Lemon & lime wedge",instructions:"Salt-rim glass. Shake all gently. Strain into prepared glass."},
-  {name:"Bramble",spirit:"Gin",method:"Shake",glass:"Rocks glass",garnish:"Lemon half wheel, blackberry",ice:"Crushed",ingredients:"2 oz Hendrick's Gin | 1 oz lemon juice | 0.5 oz Giffard Blackberry Liqueur | 0.25 oz simple syrup",instructions:"Shake gin, lemon and simple syrup. Fine-strain over crushed ice. Float blackberry liqueur on top."},
-  {name:"Caipirinha",spirit:"Cachaça",method:"Muddle",glass:"Double rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Cachaça | 2 barspoons sugar | 1 whole lime",instructions:"Muddle lime and sugar in glass. Fill with ice, add cachaça, stir."},
-  {name:"Clover Club",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"3 raspberries",ice:"Up",ingredients:"2 oz Bombay Sapphire Gin | 0.5 oz lemon juice | 0.5 oz Re'al Raspberry Syrup | 1 egg white",instructions:"Shake all vigorously until chilled. Strain into chilled coupe."},
-  {name:"Corpse Reviver No.2",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:"0.75 oz Bombay Sapphire Gin | 0.75 oz Lillet Blanc | 0.75 oz Cointreau | 0.75 oz lemon juice | Kubler Absinthe (rinse)",instructions:"Rinse coupe with absinthe. Shake remaining with ice. Strain into prepared glass."},
-  {name:"Cosmopolitan",spirit:"Vodka",method:"Shake",glass:"Coupe / Martini",garnish:"Lime wheel",ice:"Up",ingredients:"1.5 oz Grey Goose Vodka | 0.75 oz Cointreau | 0.75 oz cranberry juice | 0.25 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled glass."},
-  {name:"Daiquiri",spirit:"Rum",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lime wheel",ice:"Up",ingredients:"2 oz Planteray 3 Stars White Rum | 0.75 oz simple syrup | 0.75 oz lime juice",instructions:"Shake with ice until chilled. Double strain into chilled glass."},
-  {name:"Dirty Martini",spirit:"Gin / Vodka",method:"Shake",glass:"Martini / Nick & Nora",garnish:"3 Filthy olives",ice:"Up",ingredients:"2.5 oz Bombay Dry Gin or Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth | 0.5 oz Filthy Olive Brine",instructions:"Shake with ice 15–20 sec. Double strain into chilled glass."},
-  {name:"Dry Martini",spirit:"Gin / Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2.5 oz Bombay Dry Gin or Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
-  {name:"El Diablo",spirit:"Tequila",method:"Shake",glass:"Highball",garnish:"Lime wedge",ice:"Cubes",ingredients:"1.5 oz Patron Reposado | 0.5 oz Creme de Cassis | 0.5 oz lime juice | 3 oz Fever-Tree Ginger Beer",instructions:"Shake tequila, cassis and lime. Double strain over ice. Top with ginger beer."},
-  {name:"Espresso Martini",spirit:"Vodka",method:"Shake",glass:"Coupe",garnish:"3 espresso beans",ice:"Up",ingredients:"1.5 oz Ketel One Vodka | 1 oz Mr. Black Coffee Liqueur | 1 oz Fever Tree Espresso Mixer | 0.25 oz simple syrup | 1 barspoon Fee Foam",instructions:"Shake all with ice until chilled. Strain into coupe."},
-  {name:"French 75",spirit:"Gin",method:"Shake",glass:"Champagne flute",garnish:"Lemon twist",ice:"Up",ingredients:"1.5 oz Gray Whale Gin | 0.75 oz simple syrup | 0.75 oz lemon juice | 2 oz Mionetto Prosecco",instructions:"Shake gin, lemon and syrup. Strain into flute. Top with prosecco."},
-  {name:"Gibson",spirit:"Gin / Vodka",method:"Stir",glass:"Martini glass",garnish:"3 cocktail onions",ice:"Up",ingredients:"2.5 oz Roku Gin or Chopin Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice until chilled. Strain into chilled martini glass."},
-  {name:"Gimlet",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Lime wheel",ice:"Up",ingredients:"2 oz Hendrick's Gin | 0.75 oz lime juice | 0.75 oz simple syrup",instructions:"Shake with ice until chilled. Strain into chilled coupe."},
-  {name:"Irish Coffee",spirit:"Whiskey",method:"Build",glass:"Handled mug",garnish:"Whipped cream",ice:"Hot",ingredients:"1.5 oz Jameson Irish Whiskey | 2 barspoons sugar | 4 oz coffee",instructions:"Pre-heat mug. Add whiskey and sugar, fill with coffee, stir, top with whipped cream."},
-  {name:"Jungle Bird",spirit:"Rum",method:"Shake",glass:"Rocks glass",garnish:"Pineapple wedge, cherry",ice:"Cubes",ingredients:"1.5 oz Meyer's Dark Rum | 0.75 oz Campari | 1.5 oz pineapple juice | 0.5 oz lime juice | 0.5 oz simple syrup",instructions:"Shake all with ice. Strain into rocks glass over fresh ice."},
-  {name:"Last Word",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"0.75 oz Bombay Sapphire Gin | 0.75 oz Fontbonne Herbal Liqueur | 0.75 oz Luxardo Maraschino | 0.75 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
-  {name:"Lemon Drop",spirit:"Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim",ice:"Up",ingredients:"1.5 oz Tito's Vodka | 0.5 oz Cointreau | 0.75 oz simple syrup | 0.75 oz lemon juice",instructions:"Sugar-rim glass. Shake all with ice. Strain into prepared glass."},
-  {name:"Mai Tai",spirit:"Rum",method:"Shake",glass:"Double old fashioned",garnish:"Mint sprig, lime shell",ice:"Pebble / cubes",ingredients:"2 oz Appleton Estate Aged Rum | 0.5 oz Cointreau | 0.75 oz lime juice | 0.75 oz orgeat | 0.25 oz simple syrup",instructions:"Shake with crushed ice until frosty. Pour unstrained into glass."},
-  {name:"Manhattan",spirit:"Rye Whiskey",method:"Stir",glass:"Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"2 oz High West Double Rye | 1 oz Martini & Rossi Rosso Vermouth | 1 dash Angostura Bitters",instructions:"Stir whiskey, vermouth and bitters with ice. Strain into chilled glass."},
-  {name:"Margarita",spirit:"Tequila",method:"Shake",glass:"Rocks glass",garnish:"Salt rim (opt.), lime wheel",ice:"Cubes",ingredients:"2 oz Don Julio Reposado | 1 oz Cointreau | 0.75 oz lime juice",instructions:"Optional salt rim. Shake with ice. Strain over fresh ice."},
-  {name:"Mint Julep",spirit:"Bourbon",method:"Muddle",glass:"Julep cup / rocks",garnish:"Mint sprig",ice:"Crushed",ingredients:"2 oz Woodford Reserve Bourbon | 0.25 oz simple syrup | 8 fresh mint leaves",instructions:"Lightly muddle mint in simple syrup. Add bourbon, pack with crushed ice, stir until frosted."},
-  {name:"Mojito",spirit:"Rum",method:"Muddle",glass:"Highball",garnish:"Mint sprig, lime wheel",ice:"Cubes",ingredients:"2 oz Bacardi Superior White Rum | 0.75 oz lime juice | 0.75 oz simple syrup | 10 mint leaves | 2 oz Fever-Tree Club Soda",instructions:"Muddle mint. Add rum, lime, ice. Short shake. Strain over fresh ice. Top with soda."},
-  {name:"Moscow Mule",spirit:"Vodka",method:"Build",glass:"Mule mug / rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Wheatley Vodka | 0.5 oz lime juice | 3 oz Fever-Tree Ginger Beer",instructions:"Fill mug with ice, add vodka and lime, top with ginger beer."},
-  {name:"Naked and Famous",spirit:"Mezcal",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:"1 oz Ilegal Mezcal | 1 oz Aperol | 1 oz Fontnonne Herbal Liqueur | 1 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
-  {name:"Negroni",spirit:"Gin",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:"1 oz Bombay Dry Gin | 1 oz Campari | 1 oz Martini & Rossi Rosso Vermouth",instructions:"Stir all with ice until chilled. Strain into glass over ice."},
-  {name:"Negroni Sbagliato",spirit:"Campari",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:"1 oz Campari | 1 oz Martini & Rossi Rosso Vermouth | 1 oz Mionetto Prosecco",instructions:"Stir Campari and vermouth. Strain over fresh ice. Top with prosecco."},
-  {name:"New York Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"Red wine float",ice:"Cubes",ingredients:"2 oz High West Rye or Maker's Mark Bourbon | 1 oz lemon juice | 0.75 oz simple syrup | 1 egg white | 0.5 oz red wine (float)",instructions:"Shake whiskey, syrup, lemon and egg white. Strain over ice. Float red wine on top."},
-  {name:"Old Cuban",spirit:"Rum",method:"Muddle",glass:"Coupe",garnish:"Mint sprig",ice:"Up",ingredients:"1.5 oz Appleton Estate Aged Rum | 1 oz simple syrup | 0.75 oz lime juice | 6 mint leaves | 2 dashes Angostura Bitters | 2 oz Mionetto Prosecco",instructions:"Muddle mint. Add rum, bitters, ice. Shake. Double strain into coupe. Top with prosecco."},
-  {name:"Old Fashioned",spirit:"Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Large cube",ingredients:"2 oz WhistlePig Rye or Buffalo Trace Bourbon | 1 barspoon sugar | 1 dash Angostura Bitters | 1 dash Orange Bitters | 0.25 oz water",instructions:"Stir sugar, bitters and water. Add whiskey and ice, stir until chilled. Strain over large cube."},
-  {name:"Paloma",spirit:"Tequila",method:"Build",glass:"Highball",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Jose Cuervo Blanco | 0.5 oz lime juice | 1 pinch salt | 4 oz Fever-Tree Grapefruit Soda",instructions:"Add tequila, lime and salt, fill with ice, top with grapefruit soda."},
-  {name:"Paper Plane",spirit:"Bourbon",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"None",ice:"Up",ingredients:"0.75 oz Maker's Mark Bourbon | 0.75 oz Aperol | 0.75 oz Amaro Nonino | 0.75 oz lemon juice",instructions:"Shake all with ice until chilled. Strain into coupe."},
-  {name:"Penicillin",spirit:"Scotch",method:"Shake",glass:"Rocks glass",garnish:"Candied ginger",ice:"Cubes",ingredients:"1.75 oz Johnnie Walker Black Label | 0.75 oz lemon juice | 0.5 oz Monin Honey Syrup | 0.25 oz Monin Ginger Syrup | 0.25 oz Laphroaig 10yr (float)",instructions:"Shake blended scotch, lemon and syrups. Double strain over fresh ice. Float Laphroaig on top."},
-  {name:"Piña Colada",spirit:"Rum",method:"Shake",glass:"Hurricane / highball",garnish:"Pineapple wedge, orange wheel",ice:"Pebble / cubes",ingredients:"2 oz Planteray 3 Star White Rum | 1.5 oz Re'al Cream of Coconut | 1.5 oz pineapple juice | 0.5 oz lime juice",instructions:"Shake vigorously 20–30 sec. Strain over pebble ice."},
-  {name:"Ramos Gin Fizz",spirit:"Gin",method:"Shake",glass:"Collins / highball",garnish:"None",ice:"Up",ingredients:"2 oz Bombay Sapphire Gin | 0.75 oz simple syrup | 0.5 oz heavy cream | 0.5 oz lemon juice | 0.5 oz lime juice | 3 dashes orange flower water | 1 egg white | Fever-Tree Club Soda (top)",instructions:"Dry-shake all 10 sec. Add ice, shake 15 sec. Strain. Top with soda."},
-  {name:"Sazerac",spirit:"Rye Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Lemon peel",ice:"Up",ingredients:"2.5 oz Sazerac Rye Whiskey | 4 dashes Peychaud's Bitters | 0.25 oz cold water | 1 tsp sugar | Kubler Absinthe (rinse)",instructions:"Rinse glass with absinthe. Muddle sugar, water and bitters. Add rye and ice, stir 20 sec. Strain."},
-  {name:"Sidecar",spirit:"Cognac",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim, orange twist",ice:"Up",ingredients:"1.5 oz Remy Martin VSOP Cognac | 0.75 oz Cointreau | 0.75 oz lemon juice",instructions:"Sugar-rim glass. Shake cognac, Cointreau and lemon with ice. Strain into prepared glass."},
-  {name:"Singapore Sling",spirit:"Gin",method:"Shake",glass:"Highball",garnish:"Orange wheel, cherry",ice:"Cubes",ingredients:"0.75 oz Botanist Gin | 0.25 oz Benedictine | 0.25 oz Grand Marnier | 0.25 oz Cherry Herring | 1 oz pineapple juice | 0.5 oz lime juice | 1 dash Angostura Bitters | Fever-Tree Club Soda (top)",instructions:"Shake all except soda. Strain into highball over ice. Top with club soda."},
-  {name:"Standard Martini",spirit:"Gin",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2 oz Bombay Dry Gin | 1 oz Martini & Rossi Dry Vermouth",instructions:"Stir gin and vermouth with ice 30–45 sec. Strain into chilled glass."},
-  {name:"Tom Collins",spirit:"Gin",method:"Build",glass:"Collins glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:"2 oz Gray Whale Gin | 0.75 oz simple syrup | 0.75 oz lemon juice | Fever-Tree Club Soda (top)",instructions:"Add gin, syrup and lemon. Fill with ice, top with club soda, stir."},
-  {name:"Vesper",spirit:"Gin / Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:"3 oz Hendrick's Gin | 1 oz Grey Goose Vodka | 0.5 oz Lillet Blanc",instructions:"Shake vigorously 20–30 sec. Strain into chilled glass. Express lemon twist."},
-  {name:"Vieux Carré",spirit:"Rye / Cognac",method:"Stir",glass:"Rocks glass",garnish:"Lemon twist",ice:"Cubes",ingredients:"0.75 oz Sazerac Rye Whiskey | 0.75 oz Remy Martin VSOP Cognac | 0.75 oz Martini & Rossi Rosso Vermouth | 2 barspoons Benedictine | 2 dashes Angostura Bitters | 2 dashes Peychaud's Bitters",instructions:"Stir all with ice until chilled. Strain into rocks glass over fresh ice."},
-  {name:"Vodka Martini",spirit:"Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2.5 oz Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
-  {name:"Whiskey Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"3–4 dashes Angostura Bitters",ice:"Cubes",ingredients:"2 oz Jack Daniel's Tennessee Whiskey | 0.75 oz simple syrup | 0.75 oz lemon juice | 1 egg white",instructions:"Dry-shake all 30 sec. Add ice, shake 15–20 sec. Strain over fresh ice."}
+  {menu:"Classic",name:"Amaretto Sour",spirit:"Amaretto",method:"Shake",glass:"Rocks glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:"1.5 oz Disaronno Amaretto | 0.75 oz Evan Williams Bourbon | 1 oz lemon juice | 1 barspoon simple syrup | 1 egg white",instructions:"Dry-shake 15 sec. Add ice, shake until chilled. Strain over fresh ice."},
+  {menu:"Classic",name:"Americano",spirit:"Campari",method:"Build",glass:"Highball",garnish:"Orange twist",ice:"Cubes",ingredients:"1.5 oz Martini & Rossi Rosso Vermouth | 1.5 oz Campari | Fever-Tree Club Soda",instructions:"Fill highball with ice, add Campari and vermouth, top with soda, stir gently."},
+  {menu:"Classic",name:"Aperol Spritz",spirit:"Aperol",method:"Build",glass:"Wine glass",garnish:"Orange slice",ice:"Cubes",ingredients:"2 oz Aperol | 3 oz Mionetto Prosecco | 1 oz Fever-Tree Club Soda",instructions:"Build in ice-filled wine glass. Top with soda."},
+  {menu:"Classic",name:"Army & Navy",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Orange twist",ice:"Up",ingredients:"2 oz Gray Whale Gin | 1 oz lemon juice | 0.75 oz orgeat | 1 dash Angostura Bitters",instructions:"Shake with ice until chilled. Strain into chilled coupe."},
+  {menu:"Classic",name:"Aviation",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"2 oz Roku Gin | 0.75 oz lemon juice | 0.5 oz Luxardo Maraschino | 0.25 oz Giffard Creme De Violette",instructions:"Shake with ice until chilled. Strain into glass."},
+  {menu:"Classic",name:"Bee's Knees",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:"2 oz Botanist Gin | 0.75 oz Monin Honey Syrup | 0.75 oz lemon juice",instructions:"Shake with ice until chilled. Strain into chilled glass."},
+  {menu:"Classic",name:"Blood & Sand",spirit:"Scotch",method:"Shake",glass:"Coupe / Martini",garnish:"Orange twist",ice:"Up",ingredients:"0.75 oz Dewar's White Label Scotch | 0.75 oz Martini & Rossi Rosso Vermouth | 0.75 oz Cherry Herring | 0.75 oz orange juice",instructions:"Shake all with ice until chilled. Strain into chilled glass."},
+  {menu:"Classic",name:"Bloody Mary",spirit:"Vodka",method:"Shake",glass:"Pint glass",garnish:"3 olives, lime wedge, celery",ice:"Cubes",ingredients:"2 oz Wheatley Vodka | 4 oz tomato juice | 2 barspoons horseradish | 2 dashes Tabasco | 2 dashes Worcestershire | 1 pinch black pepper | 1 pinch smoked paprika | 1 pinch celery salt | Lemon & lime wedge",instructions:"Salt-rim glass. Shake all gently. Strain into prepared glass."},
+  {menu:"Classic",name:"Bramble",spirit:"Gin",method:"Shake",glass:"Rocks glass",garnish:"Lemon half wheel, blackberry",ice:"Crushed",ingredients:"2 oz Hendrick's Gin | 1 oz lemon juice | 0.5 oz Giffard Blackberry Liqueur | 0.25 oz simple syrup",instructions:"Shake gin, lemon and simple syrup. Fine-strain over crushed ice. Float blackberry liqueur on top."},
+  {menu:"Classic",name:"Caipirinha",spirit:"Cachaça",method:"Muddle",glass:"Double rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Cachaça | 2 barspoons sugar | 1 whole lime",instructions:"Muddle lime and sugar in glass. Fill with ice, add cachaça, stir."},
+  {menu:"Classic",name:"Clover Club",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"3 raspberries",ice:"Up",ingredients:"2 oz Bombay Sapphire Gin | 0.5 oz lemon juice | 0.5 oz Re'al Raspberry Syrup | 1 egg white",instructions:"Shake all vigorously until chilled. Strain into chilled coupe."},
+  {menu:"Classic",name:"Corpse Reviver No.2",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:"0.75 oz Bombay Sapphire Gin | 0.75 oz Lillet Blanc | 0.75 oz Cointreau | 0.75 oz lemon juice | Kubler Absinthe (rinse)",instructions:"Rinse coupe with absinthe. Shake remaining with ice. Strain into prepared glass."},
+  {menu:"Classic",name:"Cosmopolitan",spirit:"Vodka",method:"Shake",glass:"Coupe / Martini",garnish:"Lime wheel",ice:"Up",ingredients:"1.5 oz Grey Goose Vodka | 0.75 oz Cointreau | 0.75 oz cranberry juice | 0.25 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled glass."},
+  {menu:"Classic",name:"Daiquiri",spirit:"Rum",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lime wheel",ice:"Up",ingredients:"2 oz Planteray 3 Stars White Rum | 0.75 oz simple syrup | 0.75 oz lime juice",instructions:"Shake with ice until chilled. Double strain into chilled glass."},
+  {menu:"Classic",name:"Dirty Martini",spirit:"Gin / Vodka",method:"Shake",glass:"Martini / Nick & Nora",garnish:"3 Filthy olives",ice:"Up",ingredients:"2.5 oz Bombay Dry Gin or Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth | 0.5 oz Filthy Olive Brine",instructions:"Shake with ice 15–20 sec. Double strain into chilled glass."},
+  {menu:"Classic",name:"Dry Martini",spirit:"Gin / Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2.5 oz Bombay Dry Gin or Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
+  {menu:"Classic",name:"El Diablo",spirit:"Tequila",method:"Shake",glass:"Highball",garnish:"Lime wedge",ice:"Cubes",ingredients:"1.5 oz Patron Reposado | 0.5 oz Creme de Cassis | 0.5 oz lime juice | 3 oz Fever-Tree Ginger Beer",instructions:"Shake tequila, cassis and lime. Double strain over ice. Top with ginger beer."},
+  {menu:"Classic",name:"Espresso Martini",spirit:"Vodka",method:"Shake",glass:"Coupe",garnish:"3 espresso beans",ice:"Up",ingredients:"1.5 oz Ketel One Vodka | 1 oz Mr. Black Coffee Liqueur | 1 oz Fever Tree Espresso Mixer | 0.25 oz simple syrup | 1 barspoon Fee Foam",instructions:"Shake all with ice until chilled. Strain into coupe."},
+  {menu:"Classic",name:"French 75",spirit:"Gin",method:"Shake",glass:"Champagne flute",garnish:"Lemon twist",ice:"Up",ingredients:"1.5 oz Gray Whale Gin | 0.75 oz simple syrup | 0.75 oz lemon juice | 2 oz Mionetto Prosecco",instructions:"Shake gin, lemon and syrup. Strain into flute. Top with prosecco."},
+  {menu:"Classic",name:"Gibson",spirit:"Gin / Vodka",method:"Stir",glass:"Martini glass",garnish:"3 cocktail onions",ice:"Up",ingredients:"2.5 oz Roku Gin or Chopin Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice until chilled. Strain into chilled martini glass."},
+  {menu:"Classic",name:"Gimlet",spirit:"Gin",method:"Shake",glass:"Coupe",garnish:"Lime wheel",ice:"Up",ingredients:"2 oz Hendrick's Gin | 0.75 oz lime juice | 0.75 oz simple syrup",instructions:"Shake with ice until chilled. Strain into chilled coupe."},
+  {menu:"Classic",name:"Irish Coffee",spirit:"Whiskey",method:"Build",glass:"Handled mug",garnish:"Whipped cream",ice:"Hot",ingredients:"1.5 oz Jameson Irish Whiskey | 2 barspoons sugar | 4 oz coffee",instructions:"Pre-heat mug. Add whiskey and sugar, fill with coffee, stir, top with whipped cream."},
+  {menu:"Classic",name:"Jungle Bird",spirit:"Rum",method:"Shake",glass:"Rocks glass",garnish:"Pineapple wedge, cherry",ice:"Cubes",ingredients:"1.5 oz Meyer's Dark Rum | 0.75 oz Campari | 1.5 oz pineapple juice | 0.5 oz lime juice | 0.5 oz simple syrup",instructions:"Shake all with ice. Strain into rocks glass over fresh ice."},
+  {menu:"Classic",name:"Last Word",spirit:"Gin",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"0.75 oz Bombay Sapphire Gin | 0.75 oz Fontbonne Herbal Liqueur | 0.75 oz Luxardo Maraschino | 0.75 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
+  {menu:"Classic",name:"Lemon Drop",spirit:"Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim",ice:"Up",ingredients:"1.5 oz Tito's Vodka | 0.5 oz Cointreau | 0.75 oz simple syrup | 0.75 oz lemon juice",instructions:"Sugar-rim glass. Shake all with ice. Strain into prepared glass."},
+  {menu:"Classic",name:"Mai Tai",spirit:"Rum",method:"Shake",glass:"Double old fashioned",garnish:"Mint sprig, lime shell",ice:"Pebble / cubes",ingredients:"2 oz Appleton Estate Aged Rum | 0.5 oz Cointreau | 0.75 oz lime juice | 0.75 oz orgeat | 0.25 oz simple syrup",instructions:"Shake with crushed ice until frosty. Pour unstrained into glass."},
+  {menu:"Classic",name:"Manhattan",spirit:"Rye Whiskey",method:"Stir",glass:"Nick & Nora",garnish:"Filthy Cherry",ice:"Up",ingredients:"2 oz High West Double Rye | 1 oz Martini & Rossi Rosso Vermouth | 1 dash Angostura Bitters",instructions:"Stir whiskey, vermouth and bitters with ice. Strain into chilled glass."},
+  {menu:"Classic",name:"Margarita",spirit:"Tequila",method:"Shake",glass:"Rocks glass",garnish:"Salt rim (opt.), lime wheel",ice:"Cubes",ingredients:"2 oz Don Julio Reposado | 1 oz Cointreau | 0.75 oz lime juice",instructions:"Optional salt rim. Shake with ice. Strain over fresh ice."},
+  {menu:"Classic",name:"Mint Julep",spirit:"Bourbon",method:"Muddle",glass:"Julep cup / rocks",garnish:"Mint sprig",ice:"Crushed",ingredients:"2 oz Woodford Reserve Bourbon | 0.25 oz simple syrup | 8 fresh mint leaves",instructions:"Lightly muddle mint in simple syrup. Add bourbon, pack with crushed ice, stir until frosted."},
+  {menu:"Classic",name:"Mojito",spirit:"Rum",method:"Muddle",glass:"Highball",garnish:"Mint sprig, lime wheel",ice:"Cubes",ingredients:"2 oz Bacardi Superior White Rum | 0.75 oz lime juice | 0.75 oz simple syrup | 10 mint leaves | 2 oz Fever-Tree Club Soda",instructions:"Muddle mint. Add rum, lime, ice. Short shake. Strain over fresh ice. Top with soda."},
+  {menu:"Classic",name:"Moscow Mule",spirit:"Vodka",method:"Build",glass:"Mule mug / rocks",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Wheatley Vodka | 0.5 oz lime juice | 3 oz Fever-Tree Ginger Beer",instructions:"Fill mug with ice, add vodka and lime, top with ginger beer."},
+  {menu:"Classic",name:"Naked and Famous",spirit:"Mezcal",method:"Shake",glass:"Coupe",garnish:"None",ice:"Up",ingredients:"1 oz Ilegal Mezcal | 1 oz Aperol | 1 oz Fontnonne Herbal Liqueur | 1 oz lime juice",instructions:"Shake all with ice until chilled. Strain into chilled coupe."},
+  {menu:"Classic",name:"Negroni",spirit:"Gin",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:"1 oz Bombay Dry Gin | 1 oz Campari | 1 oz Martini & Rossi Rosso Vermouth",instructions:"Stir all with ice until chilled. Strain into glass over ice."},
+  {menu:"Classic",name:"Negroni Sbagliato",spirit:"Campari",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Cubes",ingredients:"1 oz Campari | 1 oz Martini & Rossi Rosso Vermouth | 1 oz Mionetto Prosecco",instructions:"Stir Campari and vermouth. Strain over fresh ice. Top with prosecco."},
+  {menu:"Classic",name:"New York Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"Red wine float",ice:"Cubes",ingredients:"2 oz High West Rye or Maker's Mark Bourbon | 1 oz lemon juice | 0.75 oz simple syrup | 1 egg white | 0.5 oz red wine (float)",instructions:"Shake whiskey, syrup, lemon and egg white. Strain over ice. Float red wine on top."},
+  {menu:"Classic",name:"Old Cuban",spirit:"Rum",method:"Muddle",glass:"Coupe",garnish:"Mint sprig",ice:"Up",ingredients:"1.5 oz Appleton Estate Aged Rum | 1 oz simple syrup | 0.75 oz lime juice | 6 mint leaves | 2 dashes Angostura Bitters | 2 oz Mionetto Prosecco",instructions:"Muddle mint. Add rum, bitters, ice. Shake. Double strain into coupe. Top with prosecco."},
+  {menu:"Classic",name:"Old Fashioned",spirit:"Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Orange twist",ice:"Large cube",ingredients:"2 oz WhistlePig Rye or Buffalo Trace Bourbon | 1 barspoon sugar | 1 dash Angostura Bitters | 1 dash Orange Bitters | 0.25 oz water",instructions:"Stir sugar, bitters and water. Add whiskey and ice, stir until chilled. Strain over large cube."},
+  {menu:"Classic",name:"Paloma",spirit:"Tequila",method:"Build",glass:"Highball",garnish:"Lime wheel",ice:"Cubes",ingredients:"2 oz Jose Cuervo Blanco | 0.5 oz lime juice | 1 pinch salt | 4 oz Fever-Tree Grapefruit Soda",instructions:"Add tequila, lime and salt, fill with ice, top with grapefruit soda."},
+  {menu:"Classic",name:"Paper Plane",spirit:"Bourbon",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"None",ice:"Up",ingredients:"0.75 oz Maker's Mark Bourbon | 0.75 oz Aperol | 0.75 oz Amaro Nonino | 0.75 oz lemon juice",instructions:"Shake all with ice until chilled. Strain into coupe."},
+  {menu:"Classic",name:"Penicillin",spirit:"Scotch",method:"Shake",glass:"Rocks glass",garnish:"Candied ginger",ice:"Cubes",ingredients:"1.75 oz Johnnie Walker Black Label | 0.75 oz lemon juice | 0.5 oz Monin Honey Syrup | 0.25 oz Monin Ginger Syrup | 0.25 oz Laphroaig 10yr (float)",instructions:"Shake blended scotch, lemon and syrups. Double strain over fresh ice. Float Laphroaig on top."},
+  {menu:"Classic",name:"Piña Colada",spirit:"Rum",method:"Shake",glass:"Hurricane / highball",garnish:"Pineapple wedge, orange wheel",ice:"Pebble / cubes",ingredients:"2 oz Planteray 3 Star White Rum | 1.5 oz Re'al Cream of Coconut | 1.5 oz pineapple juice | 0.5 oz lime juice",instructions:"Shake vigorously 20–30 sec. Strain over pebble ice."},
+  {menu:"Classic",name:"Ramos Gin Fizz",spirit:"Gin",method:"Shake",glass:"Collins / highball",garnish:"None",ice:"Up",ingredients:"2 oz Bombay Sapphire Gin | 0.75 oz simple syrup | 0.5 oz heavy cream | 0.5 oz lemon juice | 0.5 oz lime juice | 3 dashes orange flower water | 1 egg white | Fever-Tree Club Soda (top)",instructions:"Dry-shake all 10 sec. Add ice, shake 15 sec. Strain. Top with soda."},
+  {menu:"Classic",name:"Sazerac",spirit:"Rye Whiskey",method:"Stir",glass:"Rocks glass",garnish:"Lemon peel",ice:"Up",ingredients:"2.5 oz Sazerac Rye Whiskey | 4 dashes Peychaud's Bitters | 0.25 oz cold water | 1 tsp sugar | Kubler Absinthe (rinse)",instructions:"Rinse glass with absinthe. Muddle sugar, water and bitters. Add rye and ice, stir 20 sec. Strain."},
+  {menu:"Classic",name:"Sidecar",spirit:"Cognac",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Sugar rim, orange twist",ice:"Up",ingredients:"1.5 oz Remy Martin VSOP Cognac | 0.75 oz Cointreau | 0.75 oz lemon juice",instructions:"Sugar-rim glass. Shake cognac, Cointreau and lemon with ice. Strain into prepared glass."},
+  {menu:"Classic",name:"Singapore Sling",spirit:"Gin",method:"Shake",glass:"Highball",garnish:"Orange wheel, cherry",ice:"Cubes",ingredients:"0.75 oz Botanist Gin | 0.25 oz Benedictine | 0.25 oz Grand Marnier | 0.25 oz Cherry Herring | 1 oz pineapple juice | 0.5 oz lime juice | 1 dash Angostura Bitters | Fever-Tree Club Soda (top)",instructions:"Shake all except soda. Strain into highball over ice. Top with club soda."},
+  {menu:"Classic",name:"Standard Martini",spirit:"Gin",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2 oz Bombay Dry Gin | 1 oz Martini & Rossi Dry Vermouth",instructions:"Stir gin and vermouth with ice 30–45 sec. Strain into chilled glass."},
+  {menu:"Classic",name:"Tom Collins",spirit:"Gin",method:"Build",glass:"Collins glass",garnish:"Lemon wheel, cherry",ice:"Cubes",ingredients:"2 oz Gray Whale Gin | 0.75 oz simple syrup | 0.75 oz lemon juice | Fever-Tree Club Soda (top)",instructions:"Add gin, syrup and lemon. Fill with ice, top with club soda, stir."},
+  {menu:"Classic",name:"Vesper",spirit:"Gin / Vodka",method:"Shake",glass:"Coupe / Nick & Nora",garnish:"Lemon twist",ice:"Up",ingredients:"3 oz Hendrick's Gin | 1 oz Grey Goose Vodka | 0.5 oz Lillet Blanc",instructions:"Shake vigorously 20–30 sec. Strain into chilled glass. Express lemon twist."},
+  {menu:"Classic",name:"Vieux Carré",spirit:"Rye / Cognac",method:"Stir",glass:"Rocks glass",garnish:"Lemon twist",ice:"Cubes",ingredients:"0.75 oz Sazerac Rye Whiskey | 0.75 oz Remy Martin VSOP Cognac | 0.75 oz Martini & Rossi Rosso Vermouth | 2 barspoons Benedictine | 2 dashes Angostura Bitters | 2 dashes Peychaud's Bitters",instructions:"Stir all with ice until chilled. Strain into rocks glass over fresh ice."},
+  {menu:"Classic",name:"Vodka Martini",spirit:"Vodka",method:"Stir",glass:"Martini / Nick & Nora",garnish:"Lemon twist, olive on request",ice:"Up",ingredients:"2.5 oz Ketel One Vodka | 0.5 oz Martini & Rossi Dry Vermouth",instructions:"Stir with ice 30–45 sec. Strain into chilled glass."},
+  {menu:"Classic",name:"Whiskey Sour",spirit:"Whiskey",method:"Shake",glass:"Rocks glass",garnish:"3–4 dashes Angostura Bitters",ice:"Cubes",ingredients:"2 oz Jack Daniel's Tennessee Whiskey | 0.75 oz simple syrup | 0.75 oz lemon juice | 1 egg white",instructions:"Dry-shake all 30 sec. Add ice, shake 15–20 sec. Strain over fresh ice."},
+  // ── MERRICK'S TAVERN MENU ──
+  {menu:"Merricks",name:"Bitter Remedy",spirit:"Scotch / Amaro",method:"Stir",glass:"Chilled Nick & Nora",garnish:"Chocolate Dipped Dried Orange",ice:"Up",ingredients:"0.5 oz Laphroaig Scotch | 1.5 oz Amaro Averna | 0.75 oz Lillet Blanc | 2 Dashes Orange Bitters",instructions:"Combine all ingredients in large mixing glass with ice. Stir to well chill. Strain into chilled Nick & Nora glass. Place dried orange on the rim of the glass."},
+  {menu:"Merricks",name:"Bourbon Smash",spirit:"Bourbon",method:"Muddle",glass:"Large Rocks Glass",garnish:"Blackberry (3) Skewer, Mint",ice:"Small Cubes",ingredients:"2 oz Elijah Craig Bourbon | 0.5 oz Fresh Lime Juice | 0.5 oz Simple Syrup | 5 Fresh Blackberries | 4 Fresh Mint Leaves | Top Fever Tree Club Soda",instructions:"In a cocktail shaker, combine the blackberries, mint leaves, and simple syrup. Muddle until berries release juice and mint is fragrant. Add the bourbon, fresh lime juice, and ice. Shake vigorously for 20 seconds. Double strain over fresh ice and top with club soda. Garnish with a skewer of 3 blackberries and sprig of mint."},
+  {menu:"Merricks",name:"Coal Car",spirit:"Mezcal",method:"Stir",glass:"Martini",garnish:"Olive Skewer: 2 Black Olives, 1 Green Olive",ice:"Up",ingredients:"1.5 oz Banhez Mezcal | 0.5 oz Lillet Blanc | 0.5 oz Dolin Dry Vermouth | 0.5 oz Filthy Olive Brine | 2 Dashes Orange Bitters | 2 Inch Orange Peel",instructions:"Combine all ingredients in mixing glass with ice. Stir to chill. Strain into chilled martini glass. Twist orange zest to express oils and stir along edge of the glass. Discard peel. Garnish with a skewer of alternating black and green olives."},
+  {menu:"Merricks",name:"Coffee Car (Cold)",spirit:"Bourbon",method:"Shake",glass:"Chilled Irish Coffee Mug",garnish:"Biscotti",ice:"Up",ingredients:"1.5 oz Buffalo Trace Bourbon Cream | 0.5 oz Amaretto Disaronno | 1 Shot Espresso (2 oz)",instructions:"Make espresso shot and allow to cool. Fill shaker tin with ice and add all ingredients. Shake vigorously for 30 seconds. Strain into chilled mug. Garnish with biscotti."},
+  {menu:"Merricks",name:"Coffee Car (Hot)",spirit:"Bourbon",method:"Build",glass:"Irish Coffee Mug",garnish:"Biscotti",ice:"Hot",ingredients:"1.5 oz Buffalo Trace Bourbon Cream | 0.5 oz Amaretto Disaronno | Top Hot Coffee",instructions:"Fill mug with hot water to temper, once warm (approx. 1 minute) discard water. Add bourbon cream and amaretto. Top with hot coffee and stir to combine. Garnish with biscotti."},
+  {menu:"Merricks",name:"Detour Move",spirit:"Rum",method:"Shake",glass:"Collins",garnish:"Dried Apple",ice:"Small Cubes",ingredients:"1.5 oz Meyers' Dark Rum | 0.5 oz Maple Syrup | 1.5 oz Apple Juice | Top Fever Tree Ginger Beer",instructions:"Add all ingredients but ginger beer to a shaker tin with ice. Shake lightly for 15 seconds to chill. Be careful to not over dilute. Strain into Collins glass with fresh ice. Top with ginger beer and lightly stir. Garnish with a dried apple."},
+  {menu:"Merricks",name:"Doodlebug – Zero Proof",spirit:"Non-Alcoholic",method:"Shake",glass:"Collins",garnish:"Long Lemon Zest, Mint",ice:"Small Cubes",ingredients:"2 oz Lyre's American Malt | 0.5 oz Lyre's Italian Spritz | 1 oz Lemon Juice | 0.75 oz Liber Gum Syrup | Top Fever Tree Club Soda",instructions:"Using a channel knife, zest a long thin lemon zest (approx. 4-5 inches). Fill glass halfway with ice, wrap lemon zest around upper half of glass with approx. 1 inch over the lip, fill remainder with ice. Add all ingredients to shaker tin with ice. Shake to chill, about 20 seconds. Strain into Collins glass and top with club soda and stir lightly. Garnish with a sprig of mint."},
+  {menu:"Merricks",name:"Dutch Courage",spirit:"Gin",method:"Stir",glass:"Large Rocks",garnish:"Long Orange Zest",ice:"Large Cube",ingredients:"2 oz Blue Coat Barrel Aged Gin | 0.25 oz Honey Syrup | 2 Dashes Angostura Bitters | 2 Dashes Orange Bitters",instructions:"Wrap long, thin orange zest (approx. 5-6 inches) around interior of the glass and use large cube to secure. Combine all ingredients in mixing glass with ice. Stir until well chilled, about 30 seconds. Strain into prepared glass."},
+  {menu:"Merricks",name:"Half-Steam Highball",spirit:"Amaro",method:"Shake",glass:"Collins",garnish:"Dried Lemon Wheel, Mint Sprig",ice:"Small Cubes",ingredients:"1.5 oz Nonino Amaro | 0.5 oz Lyre's Italian Spritz | 1 oz Fresh Lemon Juice | 0.5 oz Re'al Peach Purée | Top Fever Tree Soda Water",instructions:"Add all ingredients but soda water to shaker tin with ice. Shake to chill, about 20 seconds. Strain into Collins glass with fresh ice. Top with club soda and lightly stir. Garnish with a dried lemon wheel and mint sprig."},
+  {menu:"Merricks",name:"Lancaster Co. Old Fashioned",spirit:"Rye Whiskey",method:"Stir",glass:"Large Rocks",garnish:"Skewer of Filthy Black Cherry and Orange Twist",ice:"Large Cube",ingredients:"2 oz Dad's Hat Port Barrel Finished Rye | 0.5 oz Liber Gum Syrup | 2 Dashes Orange Bitters | 3 Dashes Turkish Tobacco Bitters | 2 Inch Orange Zest",instructions:"Add all liquid ingredients to a large mixing glass. Add ice and stir until well chilled, 20-30 seconds. Strain into large rocks glass with a large cube. Take large orange peel and twist over cocktail to aromatize glass, discard peel. Garnish with skewer of black cherry and folded orange peel."},
+  {menu:"Merricks",name:"Northeast Regional",spirit:"Bourbon",method:"Stir",glass:"Large Rocks",garnish:"Orange Twist, Dried Apple",ice:"Large Cube",ingredients:"1.5 oz Buffalo Trace Bourbon | 1 oz Laird Applejack | 0.5 oz Carpano Sweet Vermouth | 0.5 oz Simple Syrup | 2 Dashes Turkish Tobacco Bitters",instructions:"Add all ingredients to a large mixing glass. Add ice and stir until well chilled, 20-30 seconds. Strain into large rocks glass with large cube. Garnish with an orange twist and dried apple."},
+  {menu:"Merricks",name:"Pennsylvania Punch",spirit:"Gin",method:"Shake",glass:"AP Wine Glass",garnish:"Orange (2) and Lemon (2) Rounds, Mint Sprig",ice:"Small Cubes",ingredients:"1.5 oz Blue Coat Gin | 0.5 oz Lemon Juice | 1 oz Orange Juice | 0.5 oz Honey Syrup | 0.25 oz Aperol | Top Fever Tree Club Soda",instructions:"Add 2 lemon rounds and 2 orange rounds to wine glass and fill 3/4 with ice. Combine all ingredients but club soda in shaker tin with ice. Shake 20 seconds. Strain into prepared glass. Top with club soda, stir lightly. Garnish with a mint sprig."},
+  {menu:"Merricks",name:"Pennsylvania Punch Batch",spirit:"Gin",method:"Batch",glass:"AP Wine Glass",garnish:"Mint Sprig",ice:"Small Cubes",ingredients:"25.6 oz Blue Coat Gin (1 x 750mL bottle) | 8.5 oz Lemon Juice | 17 oz Orange Juice | 8.5 oz Honey Syrup | 4.25 oz Aperol | Top Fever Tree Club Soda at service",instructions:"Combine all ingredients except soda in medium Cambro. Per serving: add 2 lemon rounds and 2 orange rounds to wine glass, fill 3/4 with ice. Measure 3.5 oz of mixture in shaker tin with ice. Shake 20 seconds. Strain into prepared glass. Top with club soda, stir lightly. Garnish with mint sprig. Yields 18 servings. Shelf life: 72 hours refrigerated."},
+  {menu:"Merricks",name:"Samuel's Sour",spirit:"Whiskey",method:"Shake",glass:"Chilled Small Rocks Glass",garnish:"5 Drops Angostura Bitters in Circular Pattern",ice:"Up",ingredients:"2 oz Pennsylvania Distilling Single Malt Whiskey | 1 oz Fresh Lemon Juice | 0.25 oz Maple Syrup | 0.5 oz Re'al Peach Purée | 1 Egg White (approx. 1.5 oz)",instructions:"Fill empty shaker tin with all ingredients. Dry shake vigorously for 15-20 seconds. Add ice to shaker, shake hard for 20-30 seconds. Strain into chilled small rocks glass, let settle 10-15 seconds for froth to fully rise. Drop 5 large drops of bitters in a wide circle and drag with cocktail skewer to create a feathered shape."},
+  // ── POMELO ROOFTOP MENU ──
+  {menu:"Pomelo",name:"Agave & Aloe",spirit:"Tequila",method:"Stir",glass:"Large Rocks",garnish:"Long Lemon Zest, Mint Leaf",ice:"Large Cube",ingredients:"1 oz Dobel Blanco Tequila | 1 oz Chareau Aloe Liqueur | 1 oz Lillet Blanc",instructions:"Add all ingredients to large mixing glass. Add ice and stir to chill, about 20 seconds. Wrap long zest of lemon around large cube and place in rocks glass. Strain mixing glass into prepared glass. Peel about a 2-inch section of lemon zest and twist to release oils, stir zest around rim of cocktail glass 2 rotations. Garnish with a mint leaf."},
+  {menu:"Pomelo",name:"Cherry Blossom Spritz",spirit:"Sake / Gin",method:"Shake",glass:"Coupe + Sidecar",garnish:"Dried Rose",ice:"Up / Sidecar Chiller",ingredients:"1.5 oz Joto Yuzu Sake | 1 oz Roku Gin | 0.25 oz Heering Cherry Liqueur | 2 oz Prosecco (sidecar carafe)",instructions:"Add sake, gin and cherry liqueur to shaker tin with ice. Shake to chill, about 20 seconds. Strain into coupe. Garnish with dried flower. Add ice to sidecar chiller. Fill sidecar carafe to base of neck with Prosecco."},
+  {menu:"Pomelo",name:"Garden G&T",spirit:"Gin",method:"Build",glass:"G&T Goblet",garnish:"Black Peppercorns, Lemon Wheel, Rosemary Sprig",ice:"Small Cubes",ingredients:"1.5 oz Bombay Sapphire Gin | 1 oz Infused St-Germain | Top Fever Tree Mediterranean Tonic",instructions:"Fill G&T glass with ice. Add gin and infused St-Germain to glass. Stir to chill and combine, about 20 seconds. Top with tonic water and lightly stir to combine. Garnish with a lemon wheel, sprinkle of whole black peppercorns, and a sprig of rosemary. (Infused St-Germain: combine 750mL St-Germain with 6 lemon rounds, 2 tsp black peppercorns, 6 sliced strawberries, 2 rosemary sprigs. Infuse 24 hrs at room temp, strain, refrigerate up to 30 days.)"},
+  {menu:"Pomelo",name:"Herbal Highball",spirit:"Rum",method:"Shake",glass:"Highball",garnish:"Mint Sugar Rim, Lavender Sprigs",ice:"Small Cubes",ingredients:"2 oz Probitas Rum | 1 oz Fontbonne | 0.5 oz Fresh Lime Juice | 0.5 oz Simple Syrup | 2-3 Dashes Angostura Bitters | Top Club Soda",instructions:"Rim a highball glass with mint sugar in a waterfall down one side, place to the side. Combine all ingredients but club soda in shaker tin with ice. Shake lightly to incorporate (be careful not to over dilute). Strain into prepared glass with fresh ice. Top with club soda. Garnish with a couple lavender sprigs."},
+  {menu:"Pomelo",name:"Honey Rosemary Old Fashioned",spirit:"Rum",method:"Stir",glass:"Large Rocks",garnish:"Tableside Torched Rosemary Sprig",ice:"Large Cube",ingredients:"2 oz Planteray 5 Yr Barbados Rum | 0.5 oz Honey Rosemary Syrup | 2 Dashes Angostura Bitters",instructions:"Combine all ingredients in a mixing glass. Add ice and stir to chill, about 20 seconds. Strain into glass with large rock. Peel a 2-inch piece of orange zest and express the oils over the liquid. Discard. Tableside: butane torch flamed sprig of rosemary. (Honey Rosemary Syrup: combine 1 cup honey and 1 cup hot water, add 6 rosemary sprigs and muddle, cool to room temp, strain. Refrigerate up to 30 days.)"},
+  {menu:"Pomelo",name:"Indigo Gin Fizz",spirit:"Gin",method:"Shake",glass:"Highball",garnish:"Glitter Lemon Wheels",ice:"Small Cubes / Crushed",ingredients:"2 oz Empress Indigo Gin | 0.5 oz Fresh Lemon Juice | 0.25 oz Orange Blossom Water | 0.5 oz Simple Syrup | Top Fever Tree Club Soda",instructions:"Lightly spray 2 dried lemon wheels with glitter simple syrup and set aside to dry. Combine first 4 ingredients in shaker tin with ice, shake lightly to combine. Strain into highball with fresh ice. Top with soda water and gently stir. Garnish with glittered dried lemon wheels clipped to the rim."},
+  {menu:"Pomelo",name:"Penn's Woods",spirit:"Gin",method:"Shake",glass:"Large Rocks",garnish:"Dill Sprig, Lemon Zest on Skewer",ice:"Small Cubes",ingredients:"1.5 oz Bluecoat Gin | 0.25 oz Dolin Dry Vermouth | 0.5 oz Fresh Lemon Juice | 0.75 oz Penn's Woods Syrup | Splash Club Soda",instructions:"Add all ingredients but club soda to shaker tin with ice. Shake vigorously until well chilled. Strain into rocks glass with fresh ice. Top with splash of club soda. Garnish with a lemon zest wrapped dill sprig on a skewer. (Penn's Woods Syrup: blend 1 qt 1:1 simple syrup with 40g fresh dill, 20g fresh basil, 10g fresh coriander. Fine strain through cheesecloth. Refrigerate up to 14 days.)"},
+  {menu:"Pomelo",name:"Pomelo G&T",spirit:"Gin",method:"Build",glass:"G&T Goblet",garnish:"Grapefruit Wedge",ice:"Small Cubes",ingredients:"2 oz Hendrick's Gin | 0.5 oz Grapefruit Juice | Barspoon Spanish Botanicals (juniper berry, cardamom, hibiscus, pink peppercorn) | Top Fever Tree Tonic Water",instructions:"Add gin, grapefruit juice, and botanicals to G&T glass. Stir. Fill G&T glass with ice. Stir to chill and combine, about 20 seconds. Top with tonic water and lightly stir to combine. Garnish with a grapefruit wedge."},
+  {menu:"Pomelo",name:"Root & Petal",spirit:"Vodka",method:"Shake",glass:"Coupe",garnish:"Turmeric Sugar Rim, Dried Flower",ice:"Up",ingredients:"1 oz Grey Goose Vodka | 0.5 oz St-Germain | 0.5 oz Fresh Lemon Juice | 1.5 oz Domaine de Canton Ginger Liqueur | Rim: Turmeric 1 to Sugar 2",instructions:"Gently rim glass with a thin line of turmeric sugar all the way around the rim, place to the side. Add all ingredients to shaker tin with ice. Shake until well chilled. Strain into prepared coupe. Garnish with dried flower."},
+  {menu:"Pomelo",name:"Rose Martini",spirit:"Vodka",method:"Shake",glass:"Nick & Nora",garnish:"Dried Pink Rose",ice:"Up",ingredients:"1.5 oz Ketel One Vodka | 1 oz Lillet Rosé | 0.5 oz Simple Syrup | 3 Drops Hibiscus Rose Concentrate",instructions:"Combine all ingredients in shaker tin. Shake vigorously with ice. Double strain into chilled Nick & Nora glass. Carefully place dried rose floating in glass."},
+  {menu:"Pomelo",name:"The Green Edit",spirit:"Rye Whiskey",method:"Stir",glass:"Chilled Nick & Nora",garnish:"Torched Lemon Wheel",ice:"Up",ingredients:"2 oz Whistlepig 6 Yr Piggyback Rye Whiskey | 0.25 oz Pernod (rinse glass) | 0.75 oz Lemon-Tarragon Syrup | 4 Dashes Peychaud's Bitters",instructions:"Rinse chilled glass with Pernod, tossing excess, and set aside. Combine all other ingredients in a large mixing glass with ice. Stir 30 seconds to chill. Strain into prepared glass. Express oils from lemon peel over drink, discard. Spray dried lemon with simple syrup, lightly torch to brulee and float lemon in glass. (Lemon-Tarragon Syrup: boil 1 cup sugar + 0.5 cup water, stir in 3 tarragon sprigs and 0.25 cup lemon juice, cool 30 min, strain. Refrigerate up to 10 days.)"},
+  {menu:"Pomelo",name:"Tomato & Tonic",spirit:"Vodka",method:"Muddle",glass:"Highball",garnish:"Celery Salt Rim, Mint Sprig, Dried Lemon Wheel",ice:"Small Cubes",ingredients:"2 oz Wheatley Vodka | 8 Cherry Tomatoes | 6 Mint Leaves | 0.5 oz Simple Syrup | 0.5 oz Lemon Juice | Pinch Salt & Pepper | Top Fever Tree Tonic Water",instructions:"Rim glass on one side with celery salt. Combine all ingredients but tonic in an empty shaker tin. Muddle until tomatoes are well juiced. Add ice, shake 20 seconds. Double strain over fresh ice. Top with tonic water. Garnish with a mint sprig and dried lemon wheel."},
+  {menu:"Pomelo",name:"Tomato & Tonic – Zero Proof",spirit:"Non-Alcoholic",method:"Muddle",glass:"Large Rocks",garnish:"Celery Salt Rim, Mint Sprig",ice:"Small Cubes",ingredients:"6 Cherry Tomatoes | 6 Mint Leaves (4 if large) | 0.5 oz Simple Syrup | 0.5 oz Lemon Juice | Pinch Salt & Pepper | Top Fever Tree Tonic Water",instructions:"Rim glass on one side with celery salt. Combine all ingredients but tonic in an empty shaker tin. Muddle until tomatoes are well juiced. Add ice, shake hard for 20 seconds. Double strain over fresh ice. Top with tonic water. Garnish with a mint sprig."},
+  {menu:"Pomelo",name:"Verdant Smoke",spirit:"Mezcal",method:"Muddle",glass:"Coupe",garnish:"Tarragon Sprig",ice:"Up",ingredients:"2 oz Illegal Mezcal | 2 tbsp Fresh Tarragon Leaves (approx. 2 sprigs) | 1 oz Fresh Lime Juice | 1 oz Simple Syrup | 0.5 oz Dolin Dry Vermouth",instructions:"In an empty shaker tin, thoroughly muddle tarragon with lime and simple syrup. Add remaining ingredients and ice. Shake vigorously for 30 seconds. Double strain into coupe glass. Garnish with a long tarragon sprig laid across the glass."}
 ];
 
-const METHODS = ["All","Shake","Stir","Build","Muddle","Blend","Other"];
-const SPIRITS = ["All","Gin","Vodka","Rum","Whiskey","Bourbon","Rye Whiskey","Tequila","Scotch","Mezcal","Cognac","Aperol","Campari","Cachaça"];
+const METHODS = ["All","Shake","Stir","Build","Muddle","Blend","Batch","Other"];
+const SPIRITS = ["All","Gin","Vodka","Rum","Whiskey","Bourbon","Rye Whiskey","Tequila","Scotch","Mezcal","Cognac","Aperol","Campari","Cachaça","Amaro","Non-Alcoholic","Sake / Gin"];
+const MENUS   = [
+  {val:"All",    label:"All Menus"},
+  {val:"Classic",label:"Classics"},
+  {val:"Merricks",label:"Merrick's Tavern"},
+  {val:"Pomelo", label:"Pomelo Rooftop"}
+];
 
-let sheetDB = [];
-let localDB = [];
-let favs = new Set();  // Set of lowercase names
-let openId = null;
-let editId = null;
-let am = "All", as_ = "All";
-let activeTab = "all";  // "all" | "favs"
+let sheetDB = [], localDB = [], favs = new Set();
+let openId = null, editId = null;
+let am = "All", as_ = "All", activeMenu = "All", activeTab = "all";
 
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2); }
 function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function toast(msg,ms){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),ms||2200); }
 
-function toast(msg, ms){
-  const t=document.getElementById("toast");
-  t.textContent=msg; t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),ms||2200);
+function loadLocal(){ try{ const r=localStorage.getItem(LOCAL_KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+function saveLocal(){ try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(localDB)); }catch(e){} }
+function loadFavs(){ try{ const r=localStorage.getItem(FAVS_KEY); return r?new Set(JSON.parse(r)):new Set(); }catch(e){ return new Set(); } }
+function saveFavs(){ try{ localStorage.setItem(FAVS_KEY,JSON.stringify([...favs])); }catch(e){} }
+
+function toggleFav(name,e){
+  if(e) e.stopPropagation();
+  const key=name.toLowerCase();
+  if(favs.has(key)){ favs.delete(key); toast("Removed from favorites"); }
+  else { favs.add(key); toast("⭐ Added to favorites"); }
+  saveFavs(); updateFavCount(); render();
 }
-
-// ── STORAGE ──
-function loadLocal(){ try{ const r=localStorage.getItem(LOCAL_KEY); return r?JSON.parse(r):[]; } catch(e){ return []; } }
-function saveLocal(){ try{ localStorage.setItem(LOCAL_KEY,JSON.stringify(localDB)); } catch(e){} }
-function loadFavs(){ try{ const r=localStorage.getItem(FAVS_KEY); return r?new Set(JSON.parse(r)):new Set(); } catch(e){ return new Set(); } }
-function saveFavs(){ try{ localStorage.setItem(FAVS_KEY,JSON.stringify([...favs])); } catch(e){} }
-
-// ── FAVORITES ──
-function toggleFav(name, e){
-  if(e){ e.stopPropagation(); }
-  const key = name.toLowerCase();
-  if(favs.has(key)){
-    favs.delete(key);
-    toast("Removed from favorites");
-  } else {
-    favs.add(key);
-    toast("⭐ Added to favorites");
-  }
-  saveFavs();
-  updateFavCount();
-  render();
-}
-
 function isFav(name){ return favs.has(name.toLowerCase()); }
+function updateFavCount(){ const el=document.getElementById("fav-count"); if(el) el.textContent=favs.size>0?"("+favs.size+")":""; }
 
-function updateFavCount(){
-  const el = document.getElementById("fav-count");
-  if(el) el.textContent = favs.size > 0 ? "("+favs.size+")" : "";
-}
-
-// ── TABS ──
 function setTab(t){
-  activeTab = t;
-  openId = null;
-  document.getElementById("tab-all").classList.toggle("active", t==="all");
-  document.getElementById("tab-favs").classList.toggle("active", t==="favs");
+  activeTab=t; openId=null;
+  document.getElementById("tab-all").classList.toggle("active",t==="all");
+  document.getElementById("tab-favs").classList.toggle("active",t==="favs");
   render();
 }
 
-// ── MERGED VIEW ──
 function getMerged(){
-  const localMap = {};
-  localDB.forEach(c => { localMap[c.name.toLowerCase()] = c; });
-  const result = sheetDB.map(c => localMap[c.name.toLowerCase()] || c);
-  const sheetNames = new Set(sheetDB.map(c=>c.name.toLowerCase()));
-  localDB.forEach(c => { if(!sheetNames.has(c.name.toLowerCase())) result.push(c); });
+  const localMap={};
+  localDB.forEach(c=>{ localMap[c.name.toLowerCase()]=c; });
+  const result=sheetDB.map(c=>localMap[c.name.toLowerCase()]||c);
+  const sheetNames=new Set(sheetDB.map(c=>c.name.toLowerCase()));
+  localDB.forEach(c=>{ if(!sheetNames.has(c.name.toLowerCase())) result.push(c); });
   result.sort((a,b)=>a.name.localeCompare(b.name));
   return result;
 }
 
-// ── EXPORT ──
 function exportCSV(){
-  const all = getMerged();
-  const hdr = ["Name","Spirit","Method","Glass","Garnish","Ice","Ingredients","Instructions"];
-  const rows = all.map(c=>[c.name,c.spirit,c.method,c.glass,c.garnish,c.ice,c.ingredients,c.instructions]
-    .map(v=>'"'+(v||"").replace(/"/g,'""')+'"').join(","));
+  const all=getMerged();
+  const hdr=["Name","Menu","Spirit","Method","Glass","Garnish","Ice","Ingredients","Instructions"];
+  const rows=all.map(c=>[c.name,c.menu||"Classic",c.spirit,c.method,c.glass,c.garnish,c.ice,c.ingredients,c.instructions]
+    .map(v=>'"'+( v||"").replace(/"/g,'\'\'')+'"').join(","));
   const csv=[hdr.join(","),...rows].join("\n");
-  const a=document.createElement("a");
-  a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);
-  a.download="cocktails.csv"; a.click();
+  const a=document.createElement("a"); a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv); a.download="cocktails.csv"; a.click();
   toast("✓ CSV downloaded");
 }
 
-// ── SHEET LOADING ──
 function parseCSV(text){
-  const lines=text.trim().split(/\r?\n/);
-  if(lines.length<2) return [];
+  const lines=text.trim().split(/\r?\n/); if(lines.length<2) return [];
   const headers=lines[0].split(",").map(h=>h.replace(/^"|"$/g,"").trim().toLowerCase());
   return lines.slice(1).map(line=>{
     const fields=[]; let cur="",inQ=false;
-    for(let i=0;i<line.length;i++){
-      const ch=line[i];
-      if(ch==='"'){inQ=!inQ;}
-      else if(ch===','&&!inQ){fields.push(cur);cur="";}
-      else{cur+=ch;}
-    }
+    for(let i=0;i<line.length;i++){ const ch=line[i]; if(ch==='"'){inQ=!inQ;} else if(ch===","&&!inQ){fields.push(cur);cur="";} else{cur+=ch;} }
     fields.push(cur);
-    const obj={};
-    headers.forEach((h,i)=>{obj[h]=(fields[i]||"").trim();});
-    return obj;
+    const obj={}; headers.forEach((h,i)=>{obj[h]=(fields[i]||"").trim();}); return obj;
   }).filter(r=>r.name);
 }
 
 async function loadSheet(){
-  localDB = loadLocal();
-  favs = loadFavs();
-  updateFavCount();
-
+  localDB=loadLocal(); favs=loadFavs(); updateFavCount();
   if(!SHEET_URL){
-    sheetDB = FALLBACK;
+    sheetDB=FALLBACK;
     document.getElementById("setup-note").classList.add("visible");
     setStatus("Using built-in library","sheet-load");
     showList(); return;
@@ -379,97 +349,78 @@ async function loadSheet(){
     const resp=await fetch(proxy,{cache:"no-cache"});
     if(!resp.ok) throw new Error("HTTP "+resp.status);
     const text=await resp.text();
-    const parsed=parseCSV(text);
-    if(!parsed.length) throw new Error("Empty");
-    sheetDB=parsed;
-    setStatus("✓ Synced from Google Sheet","sheet-ok");
-  } catch(e){
-    sheetDB=FALLBACK;
-    setStatus("⚠ Sheet unavailable — using built-in library","sheet-err");
-  }
+    const parsed=parseCSV(text); if(!parsed.length) throw new Error("Empty");
+    sheetDB=parsed; setStatus("✓ Synced from Google Sheet","sheet-ok");
+  }catch(e){ sheetDB=FALLBACK; setStatus("⚠ Sheet unavailable — using built-in library","sheet-err"); }
   showList();
 }
 
-function setStatus(msg,cls){
-  const el=document.getElementById("sheet-status"); if(!el)return;
-  el.textContent=msg; el.className=cls;
-}
+function setStatus(msg,cls){ const el=document.getElementById("sheet-status"); if(!el)return; el.textContent=msg; el.className=cls; }
+function showList(){ document.getElementById("spinner").style.display="none"; document.getElementById("list").style.display="flex"; render(); }
 
-function showList(){
-  document.getElementById("spinner").style.display="none";
-  document.getElementById("list").style.display="flex";
-  render();
-}
-
-// ── FILTERS & RENDER ──
 function getFiltered(){
   const q=(document.getElementById("search")||{value:""}).value.toLowerCase().trim();
-  let pool = getMerged();
-  if(activeTab === "favs") pool = pool.filter(c => isFav(c.name));
+  let pool=getMerged();
+  if(activeTab==="favs") pool=pool.filter(c=>isFav(c.name));
+  if(activeMenu!=="All") pool=pool.filter(c=>(c.menu||"Classic")===activeMenu);
   return pool.filter(c=>{
     if(am!=="All"&&c.method!==am) return false;
     if(as_!=="All"&&!(c.spirit||"").includes(as_)) return false;
-    if(q){
-      const hay=(c.name+" "+(c.spirit||"")+" "+(c.ingredients||"")).toLowerCase();
-      if(!hay.includes(q)) return false;
-    }
+    if(q){ const hay=(c.name+" "+(c.spirit||"")+" "+(c.ingredients||"")).toLowerCase(); if(!hay.includes(q)) return false; }
     return true;
   });
 }
 
 function buildFilters(){
   const el=document.getElementById("filter-bar"); if(!el) return;
-  let h=METHODS.map(m=>`<span class="chip${am===m?" active":""}" onclick="setF('m','${m}')">${m}</span>`).join("");
+  let h=MENUS.map(m=>`<span class="chip${activeMenu===m.val?" active":""}" onclick="setMenu('${m.val}')">${m.label}</span>`).join("");
+  h+=`<div class="chip-div"></div>`;
+  h+=METHODS.map(m=>`<span class="chip${am===m?" active":""}" onclick="setF('m','${m}')">${m}</span>`).join("");
   h+=`<div class="chip-div"></div>`;
   h+=SPIRITS.map(s=>`<span class="chip${as_===s?" active":""}" onclick="setF('s','${esc(s)}')">${s==="All"?"All spirits":esc(s)}</span>`).join("");
   el.innerHTML=h;
 }
 
+function setMenu(m){ activeMenu=m; openId=null; render(); }
 function setF(g,v){ if(g==="m") am=v; else as_=v; openId=null; render(); }
 function tog(id){ openId=openId===id?null:id; render(); }
 function isLocal(name){ return localDB.some(c=>c.name.toLowerCase()===name.toLowerCase()); }
 
+function menuLabel(c){
+  if((c.menu||"Classic")==="Merricks") return "Merrick's";
+  if(c.menu==="Pomelo") return "Pomelo";
+  return null;
+}
+
 function render(){
   buildFilters();
-  const f=getFiltered();
-  const merged=getMerged();
+  const f=getFiltered(), merged=getMerged();
   document.getElementById("count-badge").textContent=merged.length+" drinks";
   document.getElementById("result-count").textContent=
-    activeTab==="favs"
-      ? f.length+" favorite"+(f.length!==1?"s":"")
-      : f.length+" cocktail"+(f.length!==1?"s":"");
-
+    activeTab==="favs" ? f.length+" favorite"+(f.length!==1?"s":"") : f.length+" cocktail"+(f.length!==1?"s":"");
   const list=document.getElementById("list"); if(!list) return;
 
-  // Empty favorites state
-  if(activeTab==="favs" && favs.size===0){
-    list.innerHTML=`<div class="empty-favs">
-      <div class="ef-icon">⭐</div>
-      <div class="ef-title">No favorites yet</div>
-      <div class="ef-body">Tap the ☆ star on any cocktail card to save it here for quick access during service.</div>
-    </div>`;
+  if(activeTab==="favs"&&favs.size===0){
+    list.innerHTML=`<div class="empty-favs"><div class="ef-icon">⭐</div><div class="ef-title">No favorites yet</div><div class="ef-body">Tap the ☆ star on any cocktail card to save it here for quick access during service.</div></div>`;
     return;
   }
-
-  if(!f.length){
-    list.innerHTML='<div class="no-results">No cocktails match your search.</div>';
-    return;
-  }
+  if(!f.length){ list.innerHTML='<div class="no-results">No cocktails match your search.</div>'; return; }
 
   list.innerHTML=f.map(c=>{
     const open=openId===c.name;
     const fav=isFav(c.name);
     const local=isLocal(c.name);
+    const ml=menuLabel(c);
     const ings=(c.ingredients||"").split("|").map(s=>s.trim()).filter(Boolean);
     const safeName=esc(c.name.replace(/'/g,"&#39;"));
     return `<div class="card${fav?" is-fav":""}">
       <div class="card-head" onclick="tog('${safeName}')">
         <div>
           <div class="card-name">${esc(c.name)}</div>
-          <div class="card-sub">${esc(c.glass||"")}${c.spirit?" · "+esc(c.spirit):""}</div>
+          <div class="card-sub">${esc(c.glass||"")}${c.spirit?" · "+esc(c.spirit):""}${ml?" · "+ml:""}</div>
         </div>
         <div class="card-right">
-          <span class="fav-star" onclick="toggleFav('${safeName}',event)" title="${fav?"Remove from favorites":"Add to favorites"}">${fav?"⭐":"☆"}</span>
+          <span class="fav-star" onclick="toggleFav('${safeName}',event)">${fav?"⭐":"☆"}</span>
           <span class="badge${local?" local":""}">${local?"★ Local":esc(c.method||"")}</span>
           <span class="chev${open?" open":""}">⌄</span>
         </div>
@@ -493,14 +444,11 @@ function render(){
   }).join("");
 }
 
-// ── MODAL ──
 function addIng(val){
   const ed=document.getElementById("ings"); if(!ed) return;
   const row=document.createElement("div"); row.className="ing-row";
-  const inp=document.createElement("input"); inp.type="text"; inp.value=val;
-  inp.placeholder="e.g. 2 oz Hendrick's Gin"; inp.autocomplete="off";
-  const btn=document.createElement("button"); btn.className="rm-ing"; btn.type="button";
-  btn.textContent="×"; btn.onclick=()=>row.remove();
+  const inp=document.createElement("input"); inp.type="text"; inp.value=val; inp.placeholder="e.g. 2 oz Hendrick's Gin"; inp.autocomplete="off";
+  const btn=document.createElement("button"); btn.className="rm-ing"; btn.type="button"; btn.textContent="×"; btn.onclick=()=>row.remove();
   row.appendChild(inp); row.appendChild(btn); ed.appendChild(row);
 }
 
@@ -512,6 +460,7 @@ function openModal(nameOrNull){
   document.getElementById("fn").value=c?c.name:"";
   document.getElementById("fs").value=c?(c.spirit||""):"";
   document.getElementById("fm").value=c?(c.method||"Shake"):"Shake";
+  document.getElementById("fmenu").value=c?(c.menu||"Classic"):"Classic";
   document.getElementById("fg").value=c?(c.glass||""):"";
   document.getElementById("fga").value=c?(c.garnish||""):"";
   document.getElementById("fi").value=c?(c.ice||""):"";
@@ -523,18 +472,15 @@ function openModal(nameOrNull){
   setTimeout(()=>document.getElementById("fn").focus(),100);
 }
 
-function closeModal(){
-  document.getElementById("overlay").classList.remove("open");
-  editId=null;
-}
+function closeModal(){ document.getElementById("overlay").classList.remove("open"); editId=null; }
 
 function doSave(){
   const name=document.getElementById("fn").value.trim();
-  if(!name){toast("⚠️ Name is required");return;}
-  const ings=Array.from(document.querySelectorAll("#ings .ing-row input"))
-    .map(i=>i.value.trim()).filter(Boolean);
+  if(!name){ toast("⚠️ Name is required"); return; }
+  const ings=Array.from(document.querySelectorAll("#ings .ing-row input")).map(i=>i.value.trim()).filter(Boolean);
   const data={
     id:uid(), name,
+    menu: document.getElementById("fmenu").value,
     spirit:document.getElementById("fs").value.trim(),
     method:document.getElementById("fm").value,
     glass:document.getElementById("fg").value.trim(),
@@ -543,15 +489,9 @@ function doSave(){
     ingredients:ings.join(" | "),
     instructions:document.getElementById("fx").value.trim()
   };
-  localDB=localDB.filter(c=>
-    c.name.toLowerCase()!==name.toLowerCase()&&
-    (!editId||c.name.toLowerCase()!==editId.toLowerCase())
-  );
-  localDB.push(data);
-  saveLocal();
-  closeModal();
-  openId=name;
-  render();
+  localDB=localDB.filter(c=>c.name.toLowerCase()!==name.toLowerCase()&&(!editId||c.name.toLowerCase()!==editId.toLowerCase()));
+  localDB.push(data); saveLocal();
+  closeModal(); openId=name; render();
   toast(editId?"✓ Updated!":"✓ "+name+" added!",2500);
 }
 

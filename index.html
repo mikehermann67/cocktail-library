@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1A1A2E"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>🍸 Cocktail Library</title>
+<title>🍸 Brandywine Cocktail Library</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -127,7 +127,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 
 <div class="header">
   <div class="header-top">
-    <span class="header-title">🍸 Cocktail Library</span>
+    <span class="header-title">🍸 Brandywine Cocktail Library</span>
     <div class="header-actions">
       <span class="count-badge" id="count-badge">— drinks</span>
       <button class="settings-btn" onclick="openSettings()" title="Settings">⚙</button>
@@ -151,8 +151,8 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
   <span id="result-count"></span>
   <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
 </div>
-<button id="manual-import-btn" onclick="document.getElementById('import-overlay').classList.add('open')" style="display:none;margin:8px 12px 0;background:#1A1A2E;color:#D4AF37;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">📋 Import CSV manually</button>
-<div id="debug-panel" style="display:none;margin:6px 12px;padding:10px 12px;background:#1A1A2E;color:#D4AF37;border-radius:8px;font-size:11px;font-family:monospace;line-height:1.6;white-space:pre-wrap;word-break:break-all"></div>
+
+
 
 <div class="setup-note" id="setup-note">
   <strong>📋 Connect your Google Sheet</strong>
@@ -584,22 +584,10 @@ async function loadSheet(){
     fetchTab(SHEET_URLS.pomelo,   "Pomelo")
   ]);
   const combined = [...classics, ...merricks, ...pomelo];
-  const dbg=document.getElementById("debug-panel");
-  const debugLines=[
-    "Classic URL: "+(SHEET_URLS.classic?"✓ set ("+SHEET_URLS.classic.slice(0,60)+"...)":"✗ empty"),
-    "Merricks URL: "+(SHEET_URLS.merricks?"✓ set ("+SHEET_URLS.merricks.slice(0,60)+"...)":"✗ empty"),
-    "Pomelo URL: "+(SHEET_URLS.pomelo?"✓ set ("+SHEET_URLS.pomelo.slice(0,60)+"...)":"✗ empty"),
-    "Rows loaded — Classic:"+classics.length+" Merricks:"+merricks.length+" Pomelo:"+pomelo.length,
-    "Total combined: "+combined.length
-  ];
-  if(dbg){ dbg.style.display="block"; dbg.textContent=debugLines.join("\n"); }
+  const dbg=null;
   if(!combined.length){
     sheetDB=FALLBACK;
     setStatus("⚠ Sheets not loading — tap ⚙ to check URLs","sheet-err");
-    if(dbg) dbg.textContent+="\n⚠ Could not reach Google Sheets through any proxy.\nThis is a browser security (CORS) limitation.\n\nBest fix: use the Import CSV button below\nto paste your CSV data directly into the app.";
-    // Show manual import button
-    const imp = document.getElementById("manual-import-btn");
-    if(imp) imp.style.display="block";
   } else {
     sheetDB=combined;
     const parts=[];
@@ -607,7 +595,6 @@ async function loadSheet(){
     if(merricks.length)  parts.push(merricks.length+" Merrick's");
     if(pomelo.length)    parts.push(pomelo.length+" Pomelo");
     setStatus("✓ Synced: "+parts.join(", "),"sheet-ok");
-    if(dbg) dbg.style.display="none"; // hide debug panel on success
   }
   showList();
 }
@@ -772,10 +759,8 @@ function doImportCSV(){
   try{ localStorage.setItem("cocktail-imported-"+menuTag, JSON.stringify(rows)); }catch(e){}
   document.getElementById("import-overlay").classList.remove("open");
   document.getElementById("import-csv").value="";
-  const dbg=document.getElementById("debug-panel");
+  const dbg=null;
   if(dbg) dbg.style.display="none";
-  const btn=document.getElementById("manual-import-btn");
-  if(btn) btn.style.display="none";
   setStatus("✓ Imported "+rows.length+" "+menuTag+" cocktails","sheet-ok");
   render();
   toast("✓ Imported "+rows.length+" cocktails!");

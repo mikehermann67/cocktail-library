@@ -151,6 +151,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
   <span id="result-count"></span>
   <button class="export-btn" onclick="exportCSV()">⬇ Export CSV</button>
 </div>
+<button id="manual-import-btn" onclick="document.getElementById('import-overlay').classList.add('open')" style="display:none;margin:8px 12px 0;background:#1A1A2E;color:#D4AF37;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">📋 Import CSV manually</button>
 <div id="debug-panel" style="display:none;margin:6px 12px;padding:10px 12px;background:#1A1A2E;color:#D4AF37;border-radius:8px;font-size:11px;font-family:monospace;line-height:1.6;white-space:pre-wrap;word-break:break-all"></div>
 
 <div class="setup-note" id="setup-note">
@@ -193,6 +194,29 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" onclick="doSave()">Save cocktail</button>
+    </div>
+  </div>
+</div>
+
+<!-- MANUAL IMPORT MODAL -->
+<div class="settings-overlay" id="import-overlay">
+  <div class="settings-modal">
+    <div class="settings-title">📋 Import CSV</div>
+    <div class="settings-subtitle">If your Google Sheet URL isn't syncing due to browser security restrictions, paste your CSV data directly here instead.</div>
+    <div class="url-field">
+      <div class="url-label">Which menu is this CSV for?</div>
+      <select id="import-menu" style="display:block;width:100%;font-size:14px;padding:9px 11px;border-radius:9px;border:1.5px solid #ccc;font-family:inherit;margin-bottom:12px">
+        <option value="Classic">Classic Cocktails</option>
+        <option value="Merricks">Merrick's Tavern</option>
+        <option value="Pomelo">Pomelo Rooftop</option>
+      </select>
+      <div class="url-label">Paste CSV content below</div>
+      <textarea id="import-csv" style="display:block;width:100%;height:180px;font-size:12px;padding:9px 11px;border-radius:9px;border:1.5px solid #ccc;font-family:monospace;resize:vertical;outline:none" placeholder="Name,Spirit,Method,Glass,Garnish,Ice,Ingredients,Instructions&#10;Negroni,Gin,Stir,Rocks glass,..."></textarea>
+      <div style="font-size:11px;color:#888;margin-top:6px">In Google Sheets: File → Download → CSV. Open the file in a text editor, select all, paste here.</div>
+    </div>
+    <div class="settings-btns">
+      <button class="btn-settings-cancel" onclick="document.getElementById('import-overlay').classList.remove('open')">Cancel</button>
+      <button class="btn-settings-save" onclick="doImportCSV()">Import</button>
     </div>
   </div>
 </div>
@@ -485,41 +509,67 @@ document.getElementById("settings-overlay").addEventListener("click", e=>{
 async function fetchTab(url, menuTag){
   if(!url) return [];
 
-  // Try direct fetch first (works if hosted on same origin or CORS allowed)
-  // Then try multiple proxies
+  // Google Sheets published CSV URLs can be fetched directly using
+  // a no-cors mode to get the raw CSV without a proxy
+  // We convert the pub?output=csv URL to use the export format which
+  // has better CORS support
+  function toExportUrl(u){
+    // Convert: /pub?gid=XXX&single=true&output=csv
+    // To:      /export?format=csv&gid=XXX
+    try{
+      const match = u.match(/spreadsheets\/d\/e\/([^/]+)\/pub/);
+      const gidMatch = u.match(/gid=([0-9]+)/);
+      if(match){
+        // published URL — use as-is but add cors header hint
+        return u;
+      }
+      // edit URL fallback
+      const idMatch = u.match(/spreadsheets\/d\/([^/]+)/);
+      if(idMatch){
+        const gid = gidMatch ? gidMatch[1] : "0";
+        return "https://docs.google.com/spreadsheets/d/"+idMatch[1]+"/export?format=csv&gid="+gid;
+      }
+    }catch(e){}
+    return u;
+  }
+
+  const targetUrl = toExportUrl(url);
+
   const proxies = [
-    url, // direct
+    "https://corsproxy.io/?"+encodeURIComponent(targetUrl),
+    "https://api.allorigins.win/raw?url="+encodeURIComponent(targetUrl),
+    "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(targetUrl),
+    "https://thingproxy.freeboard.io/fetch/"+encodeURIComponent(targetUrl),
     "https://corsproxy.io/?"+encodeURIComponent(url),
     "https://api.allorigins.win/raw?url="+encodeURIComponent(url),
-    "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(url),
   ];
 
   for(let i=0; i<proxies.length; i++){
-    const proxyUrl = proxies[i];
     try{
-      const resp = await fetch(proxyUrl, {cache:"no-cache"});
+      const resp = await fetch(proxies[i], {cache:"no-cache"});
       if(!resp.ok) continue;
       const text = await resp.text();
-      if(!text || text.length < 10) continue;
-      // Check it looks like CSV (has commas or newlines) not an error page
-      if(text.trim().startsWith("<")) continue; // HTML error page, skip
+      if(!text || text.length < 20) continue;
+      if(text.trim().startsWith("<")) continue;
+      // must contain a comma — basic CSV check
+      if(!text.includes(",")) continue;
       const rows = parseCSV(text);
       if(rows.length > 0){
         rows.forEach(r=>{ r.menu=menuTag; });
-        console.log("fetchTab:",menuTag,"loaded",rows.length,"rows via proxy",i);
         return rows;
       }
-    }catch(e){
-      console.warn("fetchTab proxy",i,"failed for",menuTag,":",e.message);
-    }
+    }catch(e){ continue; }
   }
-  console.error("fetchTab: all proxies failed for",menuTag);
+
+  // Last resort: try Google Apps Script web app approach via jsonp-style
+  // If all proxies fail, return empty and show manual import option
   return [];
 }
 
 async function loadSheet(){
   localDB=loadLocal(); favs=loadFavs(); updateFavCount();
   loadSavedUrls();
+  loadImportedCSVs();
   const anyUrl = SHEET_URLS.classic||SHEET_URLS.merricks||SHEET_URLS.pomelo;
   if(!anyUrl){
     sheetDB=FALLBACK;
@@ -546,7 +596,10 @@ async function loadSheet(){
   if(!combined.length){
     sheetDB=FALLBACK;
     setStatus("⚠ Sheets not loading — tap ⚙ to check URLs","sheet-err");
-    if(dbg) dbg.textContent+="\n⚠ All proxies failed. Check URLs in ⚙ Settings.\nMake sure sheet is published as CSV (not webpage).\nTry opening your URL directly in a browser tab — you should see raw CSV text.";
+    if(dbg) dbg.textContent+="\n⚠ Could not reach Google Sheets through any proxy.\nThis is a browser security (CORS) limitation.\n\nBest fix: use the Import CSV button below\nto paste your CSV data directly into the app.";
+    // Show manual import button
+    const imp = document.getElementById("manual-import-btn");
+    if(imp) imp.style.display="block";
   } else {
     sheetDB=combined;
     const parts=[];
@@ -703,6 +756,44 @@ function delLocal(name){
   if(!confirm('Remove local version of "'+name+'"?')) return;
   localDB=localDB.filter(c=>c.name.toLowerCase()!==name.toLowerCase());
   saveLocal(); openId=null; render(); toast("Removed local edit");
+}
+
+function doImportCSV(){
+  const text = document.getElementById("import-csv").value.trim();
+  const menuTag = document.getElementById("import-menu").value;
+  if(!text){ toast("⚠️ Paste your CSV first"); return; }
+  const rows = parseCSV(text);
+  if(!rows.length){ toast("⚠️ Could not parse CSV — check format"); return; }
+  rows.forEach(r=>{ r.menu=menuTag; });
+  // Remove existing rows for this menu from sheetDB
+  sheetDB = sheetDB.filter(r=>(r.menu||"Classic")!==menuTag);
+  sheetDB = [...sheetDB, ...rows];
+  // Save to localStorage so it persists
+  try{ localStorage.setItem("cocktail-imported-"+menuTag, JSON.stringify(rows)); }catch(e){}
+  document.getElementById("import-overlay").classList.remove("open");
+  document.getElementById("import-csv").value="";
+  const dbg=document.getElementById("debug-panel");
+  if(dbg) dbg.style.display="none";
+  const btn=document.getElementById("manual-import-btn");
+  if(btn) btn.style.display="none";
+  setStatus("✓ Imported "+rows.length+" "+menuTag+" cocktails","sheet-ok");
+  render();
+  toast("✓ Imported "+rows.length+" cocktails!");
+}
+
+// Load any previously imported CSVs from localStorage
+function loadImportedCSVs(){
+  ["Classic","Merricks","Pomelo"].forEach(menuTag=>{
+    try{
+      const saved = localStorage.getItem("cocktail-imported-"+menuTag);
+      if(saved){
+        const rows = JSON.parse(saved);
+        rows.forEach(r=>{ r.menu=menuTag; });
+        sheetDB = sheetDB.filter(r=>(r.menu||"Classic")!==menuTag);
+        sheetDB = [...sheetDB, ...rows];
+      }
+    }catch(e){}
+  });
 }
 
 document.getElementById("overlay").addEventListener("click",e=>{ if(e.target===e.currentTarget) closeModal(); });

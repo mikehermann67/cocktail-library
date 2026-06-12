@@ -250,9 +250,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 //  and saved in localStorage. You can also hard-code them here:
 // ═══════════════════════════════════════════════════════════════
 const SHEET_URLS = {
-  classic:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?gid=1453412573&single=true&output=csv",
-  merricks: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?gid=1839789348&single=true&output=csv",
-  pomelo:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?gid=965779793&single=true&output=csv"
+  classic:  "",
+  merricks: "",
+  pomelo:   ""
 };
 // ═══════════════════════════════════════════════════════════════
 
@@ -483,23 +483,38 @@ document.getElementById("settings-overlay").addEventListener("click", e=>{
 });
 
 async function fetchTab(url, menuTag){
-  if(!url){ console.log("fetchTab: no URL for",menuTag); return []; }
-  const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(url);
-  console.log("fetchTab: fetching",menuTag,"url:",url.slice(0,80)+"...");
-  try{
-    const resp=await fetch(proxy,{cache:"no-cache"});
-    console.log("fetchTab:",menuTag,"status",resp.status);
-    if(!resp.ok) throw new Error("HTTP "+resp.status);
-    const text=await resp.text();
-    console.log("fetchTab:",menuTag,"raw text length",text.length,"first 200 chars:",text.slice(0,200));
-    const rows=parseCSV(text);
-    console.log("fetchTab:",menuTag,"parsed",rows.length,"rows");
-    rows.forEach(r=>{ r.menu=menuTag; });
-    return rows;
-  }catch(e){
-    console.error("fetchTab FAILED",menuTag,e.message);
-    return [];
+  if(!url) return [];
+
+  // Try direct fetch first (works if hosted on same origin or CORS allowed)
+  // Then try multiple proxies
+  const proxies = [
+    url, // direct
+    "https://corsproxy.io/?"+encodeURIComponent(url),
+    "https://api.allorigins.win/raw?url="+encodeURIComponent(url),
+    "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(url),
+  ];
+
+  for(let i=0; i<proxies.length; i++){
+    const proxyUrl = proxies[i];
+    try{
+      const resp = await fetch(proxyUrl, {cache:"no-cache"});
+      if(!resp.ok) continue;
+      const text = await resp.text();
+      if(!text || text.length < 10) continue;
+      // Check it looks like CSV (has commas or newlines) not an error page
+      if(text.trim().startsWith("<")) continue; // HTML error page, skip
+      const rows = parseCSV(text);
+      if(rows.length > 0){
+        rows.forEach(r=>{ r.menu=menuTag; });
+        console.log("fetchTab:",menuTag,"loaded",rows.length,"rows via proxy",i);
+        return rows;
+      }
+    }catch(e){
+      console.warn("fetchTab proxy",i,"failed for",menuTag,":",e.message);
+    }
   }
+  console.error("fetchTab: all proxies failed for",menuTag);
+  return [];
 }
 
 async function loadSheet(){
@@ -521,17 +536,17 @@ async function loadSheet(){
   const combined = [...classics, ...merricks, ...pomelo];
   const dbg=document.getElementById("debug-panel");
   const debugLines=[
-    "Classic URL: "+(SHEET_URLS.classic?"✓ set":"✗ empty"),
-    "Merricks URL: "+(SHEET_URLS.merricks?"✓ set":"✗ empty"),
-    "Pomelo URL: "+(SHEET_URLS.pomelo?"✓ set":"✗ empty"),
+    "Classic URL: "+(SHEET_URLS.classic?"✓ set ("+SHEET_URLS.classic.slice(0,60)+"...)":"✗ empty"),
+    "Merricks URL: "+(SHEET_URLS.merricks?"✓ set ("+SHEET_URLS.merricks.slice(0,60)+"...)":"✗ empty"),
+    "Pomelo URL: "+(SHEET_URLS.pomelo?"✓ set ("+SHEET_URLS.pomelo.slice(0,60)+"...)":"✗ empty"),
     "Rows loaded — Classic:"+classics.length+" Merricks:"+merricks.length+" Pomelo:"+pomelo.length,
     "Total combined: "+combined.length
   ];
   if(dbg){ dbg.style.display="block"; dbg.textContent=debugLines.join("\n"); }
   if(!combined.length){
     sheetDB=FALLBACK;
-    setStatus("⚠ No sheets loaded — using built-in library","sheet-err");
-    if(dbg) dbg.textContent+=("\n⚠ Falling back to built-in data");
+    setStatus("⚠ Sheets not loading — tap ⚙ to check URLs","sheet-err");
+    if(dbg) dbg.textContent+="\n⚠ All proxies failed. Check URLs in ⚙ Settings.\nMake sure sheet is published as CSV (not webpage).\nTry opening your URL directly in a browser tab — you should see raw CSV text.";
   } else {
     sheetDB=combined;
     const parts=[];
@@ -539,6 +554,7 @@ async function loadSheet(){
     if(merricks.length)  parts.push(merricks.length+" Merrick's");
     if(pomelo.length)    parts.push(pomelo.length+" Pomelo");
     setStatus("✓ Synced: "+parts.join(", "),"sheet-ok");
+    if(dbg) dbg.style.display="none"; // hide debug panel on success
   }
   showList();
 }

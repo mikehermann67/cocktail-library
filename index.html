@@ -127,7 +127,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 
 <div class="setup-note" id="setup-note">
   <strong>📋 Connect your Google Sheet</strong>
-  Open this HTML file in a text editor and replace <code>const SHEET_URL = "";</code> with your published Google Sheet CSV link (File → Share → Publish to web → CSV format).
+  Open this HTML file in a text editor and paste each tab's published CSV URL into <code>SHEET_CLASSIC</code>, <code>SHEET_MERRICKS</code>, and <code>SHEET_POMELO</code>. In Google Sheets: File → Share → Publish to web → select each tab → CSV format → copy link.
   <br/>Until then the built-in library loads automatically.
   <button class="dismiss-btn" onclick="document.getElementById('setup-note').classList.remove('visible')">Got it</button>
 </div>
@@ -173,9 +173,12 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--cream);color:va
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-//  CONFIGURATION — paste your published Google Sheet CSV URL here
+//  CONFIGURATION — paste each tab's published CSV URL below
+//  In Google Sheets: File → Share → Publish to web → select tab → CSV
 // ═══════════════════════════════════════════════════════════════
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?output=csv";
+const SHEET_CLASSIC  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?gid=1453412573&single=true&output=csv";  // Classic cocktails tab
+const SHEET_MERRICKS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?gid=1839789348&single=true&output=csv";  // Merrick's Tavern tab
+const SHEET_POMELO   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMRMSvrtfpYBWsadvANiu84sm2qeMnmx8lS2crk3d6Lgc9nBIg9eC86Xi3jt5igHbz391rmxmNca_q/pub?gid=965779793&single=true&output=csv";  // Pomelo Rooftop tab
 // ═══════════════════════════════════════════════════════════════
 
 const LOCAL_KEY = "cocktail-local-v1";
@@ -335,23 +338,47 @@ function parseCSV(text){
   }).filter(r=>r.name);
 }
 
+async function fetchTab(url, menuTag){
+  if(!url) return [];
+  try{
+    const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(url);
+    const resp=await fetch(proxy,{cache:"no-cache"});
+    if(!resp.ok) throw new Error("HTTP "+resp.status);
+    const text=await resp.text();
+    const rows=parseCSV(text);
+    // tag each row with its menu, overriding any menu column in the sheet
+    rows.forEach(r=>{ r.menu=menuTag; });
+    return rows;
+  }catch(e){ console.warn("Failed to load tab",menuTag,e); return []; }
+}
+
 async function loadSheet(){
   localDB=loadLocal(); favs=loadFavs(); updateFavCount();
-  if(!SHEET_URL){
+  const anyUrl = SHEET_CLASSIC||SHEET_MERRICKS||SHEET_POMELO;
+  if(!anyUrl){
     sheetDB=FALLBACK;
     document.getElementById("setup-note").classList.add("visible");
     setStatus("Using built-in library","sheet-load");
     showList(); return;
   }
-  try{
-    setStatus("Syncing…","sheet-load");
-    const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(SHEET_URL);
-    const resp=await fetch(proxy,{cache:"no-cache"});
-    if(!resp.ok) throw new Error("HTTP "+resp.status);
-    const text=await resp.text();
-    const parsed=parseCSV(text); if(!parsed.length) throw new Error("Empty");
-    sheetDB=parsed; setStatus("✓ Synced from Google Sheet","sheet-ok");
-  }catch(e){ sheetDB=FALLBACK; setStatus("⚠ Sheet unavailable — using built-in library","sheet-err"); }
+  setStatus("Syncing from Google Sheets…","sheet-load");
+  const [classics, merricks, pomelo] = await Promise.all([
+    fetchTab(SHEET_CLASSIC,  "Classic"),
+    fetchTab(SHEET_MERRICKS, "Merricks"),
+    fetchTab(SHEET_POMELO,   "Pomelo")
+  ]);
+  const combined = [...classics, ...merricks, ...pomelo];
+  if(!combined.length){
+    sheetDB=FALLBACK;
+    setStatus("⚠ No sheets loaded — using built-in library","sheet-err");
+  } else {
+    sheetDB=combined;
+    const parts=[];
+    if(classics.length)  parts.push(classics.length+" classics");
+    if(merricks.length)  parts.push(merricks.length+" Merrick's");
+    if(pomelo.length)    parts.push(pomelo.length+" Pomelo");
+    setStatus("✓ Synced: "+parts.join(", "),"sheet-ok");
+  }
   showList();
 }
 
